@@ -1,6 +1,6 @@
-# Project Architecture: Tridorian Partner Portal
+# Project Architecture: OCM LMS
 
-This document outlines the architectural structure and technology stack for the Tridorian Partner Portal, following its refactor from a monolithic prototype.
+This document outlines the architectural structure and technology stack for the OCM Learning Management System (LMS), following its refactor from a monolithic prototype.
 
 ## Technology Stack
 

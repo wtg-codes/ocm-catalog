@@ -1,14 +1,14 @@
-# Tridorian Partner Portal
+# OCM Learning Management System (LMS)
 
-A production-grade, component-driven React application for partner training and course management.
+A production-grade, component-driven React application for delivering Organizational Change Management (OCM) content within a professional services organization.
 
 ## Project Overview
 
-This repository is a modernized refactor of the original Tridorian Partner Portal prototype. It has been transitioned from a monolithic architecture into a scalable, type-safe development environment.
+This repository is a modernized refactor of the original OCM catalog prototype. It has been transitioned from a monolithic architecture into a scalable, type-safe development environment.
 
 ## Key Features
 
-- **Multi-Course Catalog:** Browse and enroll in various developer and engineering tracks.
+- **OCM Course Catalog:** Browse and enroll in various professional services training tracks.
 - **Interactive Lab Engine:** Step-by-step hands-on training with integrated code snippets and progress tracking.
 - **Dynamic Theme Engine:** Supports multiple themes (Light, Dark, Kitten, Caribbean, Lunar) powered by a centralized CSS variable system.
 - **Global State Management:** High-performance state synchronization using Zustand.
