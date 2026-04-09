@@ -21,11 +21,11 @@
 
 ## Phase 2: Data Modeling, Mock Data, & Strict Typing
 - [x] **Step 2.1: Define Core TypeScript Interfaces** (DONE)
-- [ ] **Step 2.2: Extract Mock Data & Utility Components**
-  - [ ] Create `src/data/mockData.tsx` (must be .tsx as it contains JSX).
-  - [ ] Move `initialCoursesData`, `generateModuleSteps`, and `generateLabSteps` to this file.
-  - [ ] Create `src/utils/iconRegistry.tsx` for `iconMap` and `DynamicIcon`.
-  - [ ] *Verification:* Run `npm run build`; verify data integrity in `App.tsx`.
+- [x] **Step 2.2: Extract Mock Data & Utility Components**
+  - [x] Create `src/data/mockData.tsx` (must be .tsx as it contains JSX).
+  - [x] Move `initialCoursesData`, `generateModuleSteps`, and `generateLabSteps` to this file.
+  - [x] Create `src/utils/iconRegistry.tsx` for `iconMap` and `DynamicIcon`.
+  - [x] *Verification:* Run `npm run build`; verify data integrity in `App.tsx`.
 
 ---
 
