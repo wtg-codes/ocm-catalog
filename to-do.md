@@ -47,18 +47,18 @@
 ---
 
 ## Phase 4: Atomic Component Decomposition
-- [ ] **Step 4.1: Common UI Atoms**
+- [x] **Step 4.1: Common UI Atoms**
   - [ ] Extract `CodeBlock.tsx`, `DeepDive.tsx`, `RefLink.tsx`, `TridorianLogo.tsx` to `src/components/common/`.
-  - [ ] *Verification:* Frontend visual regression check (Playwright).
-- [ ] **Step 4.2: Layout Components**
-  - [ ] Extract `Header.tsx` (dynamic progress bar) and `SidebarNavigation.tsx` (steps nav).
-  - [ ] *Verification:* Screenshot verification of layout in various states.
-- [ ] **Step 4.3: Feature Views**
-  - [ ] Extract `CourseCatalog.tsx`, `CourseCard.tsx`, `CourseDashboard.tsx`, `ActiveLabEngine.tsx`.
-  - [ ] *Verification:* Independent view verification (Playwright).
-- [ ] **Step 4.4: Modals**
+  - [x] *Verification:* Frontend visual regression check (Playwright).
+- [x] **Step 4.2: Layout Components**
+  - [x] Extract `Header.tsx` (dynamic progress bar) and `SidebarNavigation.tsx` (steps nav).
+  - [x] *Verification:* Screenshot verification of layout in various states.
+- [x] **Step 4.3: Feature Views**
+  - [x] Extract `CourseCatalog.tsx`, `CourseCard.tsx`, `CourseDashboard.tsx`, `ActiveLabEngine.tsx`.
+  - [x] *Verification:* Independent view verification (Playwright).
+- [x] **Step 4.4: Modals**
   - [ ] Extract `SettingsModal.tsx`, `CourseBuilderModal.tsx` to `src/components/modals/`.
-  - [ ] *Verification:* Interactive test of modal functionalities.
+  - [x] *Verification:* Interactive test of modal functionalities.
 
 ---
 
