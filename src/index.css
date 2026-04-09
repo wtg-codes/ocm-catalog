@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-base: #f8fafc;
+  --bg-panel: #ffffff;
+  --bg-muted: #f1f5f9;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-main: #e2e8f0;
+  --accent-bg: #10b981;
+  --accent-fg: #ffffff;
+  --accent-text: #059669;
+  --accent-muted: #ecfdf5;
+  --accent-border: #a7f3d0;
+  --shadow-accent: 0 0 15px rgba(16, 185, 129, 0.3);
+}
+
+.theme-dark {
+  --bg-base: #0a0f14;
+  --bg-panel: #111822;
+  --bg-muted: #1e293b;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --border-main: #1e293b;
+  --accent-bg: #34d399;
+  --accent-fg: #022c22;
+  --accent-text: #34d399;
+  --accent-muted: rgba(6, 78, 59, 0.2);
+  --accent-border: rgba(6, 78, 59, 0.5);
+  --shadow-accent: 0 0 15px rgba(52, 211, 153, 0.2);
+}
+
+.theme-kitten {
+  --bg-base: #fff0f5;
+  --bg-panel: #ffffff;
+  --bg-muted: #ffe4e1;
+  --text-main: #4a0e4e;
+  --text-muted: #c71585;
+  --border-main: #ffb6c1;
+  --accent-bg: #ff1493;
+  --accent-fg: #ffffff;
+  --accent-text: #ff1493;
+  --accent-muted: #fff0f5;
+  --accent-border: #ff69b4;
+  --shadow-accent: 0 0 15px rgba(255, 20, 147, 0.3);
+}
+
+.theme-caribbean {
+  --bg-base: #e0f7fa;
+  --bg-panel: #ffffff;
+  --bg-muted: #b2ebf2;
+  --text-main: #004d40;
+  --text-muted: #00796b;
+  --border-main: #b2ebf2;
+  --accent-bg: #00acc1;
+  --accent-fg: #ffffff;
+  --accent-text: #00838f;
+  --accent-muted: #e0f7fa;
+  --accent-border: #80deea;
+  --shadow-accent: 0 0 15px rgba(0, 172, 193, 0.3);
+}
+
+.theme-lunar {
+  --bg-base: #050505;
+  --bg-panel: #121212;
+  --bg-muted: #222222;
+  --text-main: #eeeeee;
+  --text-muted: #888888;
+  --border-main: #333333;
+  --accent-bg: #ffffff;
+  --accent-fg: #000000;
+  --accent-text: #ffffff;
+  --accent-muted: #222222;
+  --accent-border: #444444;
+  --shadow-accent: 0 0 15px rgba(255, 255, 255, 0.15);
+}
+
+/* Core Utility Classes */
+.app-bg { background-color: var(--bg-base); color: var(--text-main); }
+.bg-panel { background-color: var(--bg-panel); }
+.bg-muted { background-color: var(--bg-muted); }
+.text-main { color: var(--text-main); }
+.text-muted { color: var(--text-muted); }
+.border-main { border-color: var(--border-main); }
+
+.bg-accent { background-color: var(--accent-bg); }
+.text-accent-fg { color: var(--accent-fg); }
+.text-accent { color: var(--accent-text); }
+.bg-accent-muted { background-color: var(--accent-muted); }
+.border-accent { border-color: var(--accent-border); }
+
+.accent-btn {
+  @apply shadow-accent transition-all duration-200 ease-in-out;
+  background-color: var(--accent-bg);
+  color: var(--accent-fg);
+  box-shadow: var(--shadow-accent);
+}
+.accent-btn:hover {
+  @apply -translate-y-[1px] brightness-110;
+}
+.accent-btn:disabled {
+  @apply opacity-50 cursor-not-allowed transform-none shadow-none;
+}
