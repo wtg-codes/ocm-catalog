@@ -31,7 +31,12 @@ import {
   X,
   Palette,
   Presentation,
-  Play
+  Play,
+  Edit3,
+  Trash2,
+  Save,
+  Grid,
+  List as ListIcon
 } from 'lucide-react';
 
 // --- THEME CSS DEFINITIONS ---
@@ -139,20 +144,24 @@ const themeStyles = `
   }
 `;
 
+// --- ICON DICTIONARY FOR AUTHORING ---
+const iconMap = {
+  Cloud, Terminal, Monitor, Lightbulb, Key, Zap, Presentation, 
+  SettingsIcon, FileCode2, BookOpen, Award, Play, CheckCircle2, Circle, GitPullRequest
+};
+
+const DynamicIcon = ({ name, size = 24, className = "" }) => {
+  const IconComponent = iconMap[name] || Cloud;
+  return <IconComponent size={size} className={className} />;
+};
+
 // --- TRIDORIAN BRAND ASSETS ---
 const TridorianLogo = ({ className, size = 24 }) => (
   <svg 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="3" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    className={className}
+    width={size} height={size} viewBox="0 0 24 24" fill="none" 
+    stroke="currentColor" strokeWidth="3" strokeLinecap="round" 
+    strokeLinejoin="round" className={className}
   >
-    {/* Geometric Isometric Hexagon matching uploaded brand logo */}
     <path d="M12 2.5 L19.5 6.5 L19.5 9.5" />
     <path d="M19.5 14.5 L19.5 17.5 L12 21.5" />
     <path d="M12 21.5 L4.5 17.5 L4.5 14.5" />
@@ -162,45 +171,6 @@ const TridorianLogo = ({ className, size = 24 }) => (
     <path d="M12 13 L15.5 15.5" />
   </svg>
 );
-
-// --- UTILITIES ---
-const downloadQuickRefGuide = () => {
-  const content = `# Agentic Developer Toolkit - Quick Reference Guide
-
-## 1. Antigravity IDE Shortcuts
-- **Fast Mode (Cmd + I):** Best for quick, inline edits. Routes to Gemini 3.1 Flash.
-- **Agent Mode (Cmd + L):** Opens the Agent sidebar. Routes to Gemini 3.1 Pro. Best for complex, multi-file edits and terminal commands.
-
-## 2. Managing Agent Context
-- **Workspace Rules:** Create \`.agents/rules.md\` in your project root to enforce team-specific coding standards.
-- **Global Rules:** Create \`~/.gemini/GEMINI.md\` to set your global developer preferences.
-
-## 3. Local Model Offloading
-To save cloud quota, you can run tasks locally:
-1. Ensure Ollama (v0.20.0+) is installed.
-2. Run \`ollama run gemma4:e4b\` in your terminal.
-3. In Antigravity Settings, set 'Fast Mode' provider to 'Localhost (Ollama)'.
-
-## 4. Gemini CLI Quick Commands
-- Summary: \`git diff main | gemini prompt "Summarize for PR"\`
-- Log Analysis: \`cat error.log | gemini prompt "Find the root cause"\`
-
-## 5. Jules Cloud Agent
-- **GitHub Trigger:** Create an issue and add the \`@jules-agent\` label.
-- **CLI Trigger:** Run \`jules run "Your objective here"\`
-- **Dashboard:** Track active cloud tasks via \`jules dashboard\`.
-`;
-  
-  const blob = new Blob([content], { type: 'text/markdown' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'Agentic_Toolkit_QuickRef.md';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-};
 
 // --- SHARED COMPONENTS ---
 const CodeBlock = ({ code, language }) => {
@@ -257,81 +227,35 @@ const generateModuleSteps = (moduleId, moduleTitle, moduleDesc) => [
   {
     id: `${moduleId}-intro`,
     title: '1. Keynote Video',
-    icon: Play,
+    icon: 'Play',
     content: () => (
       <div className="space-y-4">
         <h2 className="text-2xl font-bold text-main tracking-tight">Keynote Video</h2>
-        <p className="text-muted">
-          Before diving into the hands-on labs, watch this brief overview covering the core concepts for this module.
-        </p>
-
-        {/* TODO: Replace the mock below with a YouTube, Vimeo, or internal video iframe.
-          <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-main shadow-sm mt-6">
-            <iframe 
-              width="100%" 
-              height="100%" 
-              src="https://www.youtube.com/embed/[YOUR_VIDEO_ID]" 
-              title="Video player" 
-              frameBorder="0" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-              allowFullScreen
-              className="absolute inset-0 w-full h-full"
-            ></iframe>
-          </div>
-        */}
-
-        {/* --- MOCK UI (Remove when iframe is added) --- */}
+        <p className="text-muted">Before diving into the hands-on labs, watch this brief overview covering the core concepts for this module.</p>
         <div className="relative w-full aspect-video bg-[#0a0f14] rounded-xl border border-main flex items-center justify-center overflow-hidden shadow-sm mt-6 group">
           <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent opacity-60"></div>
-          
           <button className="relative z-10 w-20 h-20 bg-accent text-accent-fg rounded-full flex items-center justify-center shadow-accent transform group-hover:scale-110 transition-transform duration-300">
             <Play size={36} className="ml-1 fill-current" />
           </button>
-          
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 pt-12 flex justify-between items-end">
             <div>
               <h3 className="text-white font-bold text-lg">{moduleTitle}</h3>
               <p className="text-white/70 text-sm font-medium">[Company Name] Enablement Video</p>
             </div>
-            <span className="bg-black/50 text-white text-xs font-mono font-bold px-2 py-1 rounded border border-white/10 backdrop-blur">
-              10:24
-            </span>
+            <span className="bg-black/50 text-white text-xs font-mono font-bold px-2 py-1 rounded border border-white/10 backdrop-blur">10:24</span>
           </div>
         </div>
-        {/* --- END MOCK UI --- */}
       </div>
     )
   },
   {
     id: `${moduleId}-deck`,
     title: '2. Slide Deck Review',
-    icon: Presentation,
+    icon: 'Presentation',
     content: () => (
       <div className="space-y-4">
         <h2 className="text-2xl font-bold text-main tracking-tight">Architectural Slide Deck</h2>
-        <p className="text-muted">
-          Review the deployment architecture, quota management strategies, and security protocols: <strong>{moduleDesc}</strong>
-        </p>
-        
-        {/* TODO: Replace the mock container below with your Google Slides embed iframe.
-          Ensure you publish your Google Slide to the web (File -> Share -> Publish to web)
-          to get the embed link.
-
-          <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-main shadow-sm mt-6">
-            <iframe 
-              src="https://docs.google.com/presentation/d/e/[YOUR_DOCUMENT_ID_HERE]/embed?start=false&loop=false&delayms=3000" 
-              frameBorder="0" 
-              width="100%" 
-              height="100%" 
-              allowFullScreen="true" 
-              mozallowfullscreen="true" 
-              webkitallowfullscreen="true"
-              className="absolute inset-0 w-full h-full"
-            ></iframe>
-          </div>
-        */}
-
-        {/* --- MOCK UI (Remove when iframe is added) --- */}
+        <p className="text-muted">Review the deployment architecture, quota management strategies, and security protocols: <strong>{moduleDesc}</strong></p>
         <div className="relative w-full aspect-video bg-muted rounded-xl border border-main flex flex-col items-center justify-center overflow-hidden shadow-sm mt-6 group">
            <div className="absolute inset-0 bg-panel opacity-50"></div>
            <div className="relative z-10 flex flex-col items-center text-center p-6">
@@ -344,7 +268,6 @@ const generateModuleSteps = (moduleId, moduleTitle, moduleDesc) => [
                Next Slide <ChevronRight size={16} className="inline ml-1" />
              </button>
            </div>
-           
            <div className="absolute bottom-0 left-0 right-0 bg-base/80 backdrop-blur border-t border-main p-3 flex items-center justify-between">
              <span className="text-xs font-bold text-muted uppercase tracking-wider">Slide 1 of 24</span>
              <div className="flex items-center gap-2">
@@ -353,23 +276,20 @@ const generateModuleSteps = (moduleId, moduleTitle, moduleDesc) => [
              </div>
            </div>
         </div>
-        {/* --- END MOCK UI --- */}
       </div>
     )
   },
   {
     id: `${moduleId}-completion`,
     title: 'Module Complete',
-    icon: Award,
+    icon: 'Award',
     content: () => (
       <div className="text-center space-y-6 py-10">
         <div className="mx-auto w-24 h-24 bg-accent-muted rounded-full flex items-center justify-center mb-6 border border-accent">
           <Award size={48} className="text-accent" />
         </div>
         <h2 className="text-3xl font-extrabold text-main tracking-tight">Module Complete!</h2>
-        <p className="text-muted max-w-md mx-auto text-lg">
-          You've successfully completed the pre-requisite learning material. You are now ready to advance.
-        </p>
+        <p className="text-muted max-w-md mx-auto text-lg">You've successfully completed the pre-requisite learning material. You are now ready to advance.</p>
       </div>
     )
   }
@@ -379,7 +299,7 @@ const generateLabSteps = (labId, labTitle, labDesc) => [
   {
     id: `${labId}-intro`,
     title: 'Lab Overview',
-    icon: BookOpen,
+    icon: 'BookOpen',
     content: () => (
       <div className="space-y-4">
         <h2 className="text-2xl font-bold text-main tracking-tight">{labTitle}</h2>
@@ -398,7 +318,7 @@ const generateLabSteps = (labId, labTitle, labDesc) => [
   {
     id: `${labId}-exec`,
     title: '1. Hands-on Execution',
-    icon: Terminal,
+    icon: 'Terminal',
     content: () => (
       <div className="space-y-4">
         <h2 className="text-2xl font-bold text-main tracking-tight">Executing the Lab</h2>
@@ -427,185 +347,142 @@ const generateLabSteps = (labId, labTitle, labDesc) => [
   {
     id: `${labId}-completion`,
     title: 'Lab Complete',
-    icon: Award,
+    icon: 'Award',
     content: () => (
       <div className="text-center space-y-6 py-10">
         <div className="mx-auto w-24 h-24 bg-accent-muted rounded-full flex items-center justify-center mb-6 border border-accent">
           <Award size={48} className="text-accent" />
         </div>
         <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab Complete!</h2>
-        <p className="text-muted max-w-md mx-auto text-lg">
-          You've successfully completed the hands-on exercises. Your environment has been validated.
-        </p>
+        <p className="text-muted max-w-md mx-auto text-lg">You've successfully completed the hands-on exercises. Your environment has been validated.</p>
       </div>
     )
   }
 ];
 
-// --- DATA STRUCTURE ---
-const coursesData = [
+const downloadQuickRefGuide = () => {
+  const content = `# Agentic Developer Toolkit - Quick Reference Guide\n\n## 1. Antigravity IDE Shortcuts\n- **Fast Mode (Cmd + I):** Best for quick, inline edits. Routes to Gemini 3.1 Flash.\n- **Agent Mode (Cmd + L):** Opens the Agent sidebar. Routes to Gemini 3.1 Pro. Best for complex, multi-file edits and terminal commands.\n\n## 2. Managing Agent Context\n- **Workspace Rules:** Create \`.agents/rules.md\` in your project root to enforce team-specific coding standards.\n- **Global Rules:** Create \`~/.gemini/GEMINI.md\` to set your global developer preferences.\n\n## 3. Local Model Offloading\nTo save cloud quota, you can run tasks locally:\n1. Ensure Ollama (v0.20.0+) is installed.\n2. Run \`ollama run gemma4:e4b\` in your terminal.\n3. In Antigravity Settings, set 'Fast Mode' provider to 'Localhost (Ollama)'.\n\n## 4. Gemini CLI Quick Commands\n- Summary: \`git diff main | gemini prompt "Summarize for PR"\`\n- Log Analysis: \`cat error.log | gemini prompt "Find the root cause"\`\n\n## 5. Jules Cloud Agent\n- **GitHub Trigger:** Create an issue and add the \`@jules-agent\` label.\n- **CLI Trigger:** Run \`jules run "Your objective here"\`\n- **Dashboard:** Track active cloud tasks via \`jules dashboard\`.\n`;
+  
+  const blob = new Blob([content], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Agentic_Toolkit_QuickRef.md';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+// --- INITIAL DATA STORE (2026 CATALOG) ---
+const initialCoursesData = [
   {
-    id: 'tour-connected-worker',
-    title: 'The Connected Worker',
-    description: 'Drive Google Workspace & Productivity transformation across your organization.',
-    icon: Cloud,
+    id: 'course-agentic',
+    category: 'Developer & Engineering',
+    courseNumber: 'DEV-400',
+    status: 'published',
+    title: 'Agentic Developer Toolkit Workshop',
+    description: 'Master Antigravity IDE, Gemini CLI, and Jules in this comprehensive hands-on workshop designed for modern development teams.',
+    icon: 'Terminal',
     labs: [
       {
-        id: 'gws-101',
-        title: 'Module 1: Welcome to Google Workspace (GWS 101)',
-        description: 'High-level project vision, case for change, timeline, and executive tour.',
-        icon: Presentation,
-        stepsData: generateModuleSteps('gws-101', 'Welcome to Google Workspace', 'High-level project vision, case for change, timeline, and executive tour.')
+        id: 'lab-0',
+        title: 'Module 1: Concepts & Architecture',
+        description: 'Watch the keynote presentation and review the architectural slide deck before starting the hands-on exercises.',
+        icon: 'Presentation',
+        stepsData: [
+          {
+            id: 'v-intro',
+            title: '1. Keynote Video',
+            icon: 'Play',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Keynote Video</h2>
+                <p className="text-muted">
+                  Before diving into the hands-on labs, watch this brief overview on the paradigm shift from chat-assistants to autonomous agents.
+                </p>
+                <div className="relative w-full aspect-video bg-[#0a0f14] rounded-xl border border-main flex items-center justify-center overflow-hidden shadow-sm mt-6 group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent opacity-60"></div>
+                  <button className="relative z-10 w-20 h-20 bg-accent text-accent-fg rounded-full flex items-center justify-center shadow-accent transform group-hover:scale-110 transition-transform duration-300">
+                    <Play size={36} className="ml-1 fill-current" />
+                  </button>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 pt-12 flex justify-between items-end">
+                    <div>
+                      <h3 className="text-white font-bold text-lg">The Agentic Era of Development</h3>
+                      <p className="text-white/70 text-sm font-medium">Internal Enablement Video</p>
+                    </div>
+                    <span className="bg-black/50 text-white text-xs font-mono font-bold px-2 py-1 rounded border border-white/10 backdrop-blur">
+                      10:24
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )
+          },
+          {
+            id: 'v-deck',
+            title: '2. Slide Deck Review',
+            icon: 'Presentation',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Architectural Slide Deck</h2>
+                <p className="text-muted">
+                  Review the [Company Name] deployment architecture, quota management strategies, and security protocols.
+                </p>
+                <div className="relative w-full aspect-video bg-muted rounded-xl border border-main flex flex-col items-center justify-center overflow-hidden shadow-sm mt-6 group">
+                   <div className="absolute inset-0 bg-panel opacity-50"></div>
+                   <div className="relative z-10 flex flex-col items-center text-center p-6">
+                     <div className="w-16 h-16 bg-base rounded-2xl flex items-center justify-center border border-main mb-4 shadow-sm">
+                       <Presentation size={32} className="text-accent" />
+                     </div>
+                     <h3 className="text-main font-bold text-xl mb-2">Agentic Workflows 101</h3>
+                     <p className="text-muted text-sm max-w-sm mb-6">Interactive slide deck placeholder. The actual Google Slides embed will render here.</p>
+                     <button className="accent-btn px-5 py-2.5 rounded-lg text-sm font-bold uppercase tracking-wide">
+                       Next Slide <ChevronRight size={16} className="inline ml-1" />
+                     </button>
+                   </div>
+                   <div className="absolute bottom-0 left-0 right-0 bg-base/80 backdrop-blur border-t border-main p-3 flex items-center justify-between">
+                     <span className="text-xs font-bold text-muted uppercase tracking-wider">Slide 1 of 24</span>
+                     <div className="flex items-center gap-2">
+                        <button className="p-1.5 rounded bg-muted text-muted hover:text-main transition-colors border border-transparent hover:border-main"><ChevronLeft size={16} /></button>
+                        <button className="p-1.5 rounded bg-muted text-muted hover:text-main transition-colors border border-transparent hover:border-main"><ChevronRight size={16} /></button>
+                     </div>
+                   </div>
+                </div>
+              </div>
+            )
+          },
+          {
+            id: 'v-completion',
+            title: 'Module Complete',
+            icon: 'Award',
+            content: () => (
+              <div className="text-center space-y-6 py-10">
+                <div className="mx-auto w-24 h-24 bg-accent-muted rounded-full flex items-center justify-center mb-6 border border-accent">
+                  <Award size={48} className="text-accent" />
+                </div>
+                <h2 className="text-3xl font-extrabold text-main tracking-tight">Module Complete!</h2>
+                <p className="text-muted max-w-md mx-auto text-lg">
+                  You've successfully completed the pre-requisite architecture review. You are now ready to begin the hands-on configuration.
+                </p>
+              </div>
+            )
+          }
+        ]
       },
       {
-        id: 'gws-102',
-        title: 'Module 2: Communication Deep Dive (GWS 102)',
-        description: 'Detailed training on Gmail, Google Chat, and Google Meet.',
-        icon: Presentation,
-        stepsData: generateModuleSteps('gws-102', 'Communication Deep Dive', 'Detailed training on Gmail, Google Chat, and Google Meet.')
-      },
-      {
-        id: 'gws-103',
-        title: 'Module 3: Content Creation & Collaboration (GWS 103)',
-        description: 'Coverage of Google Drive, Docs, Sheets, Slides, and Smart Canvas.',
-        icon: Presentation,
-        stepsData: generateModuleSteps('gws-103', 'Content Creation & Collaboration', 'Coverage of Google Drive, Docs, Sheets, Slides, and Smart Canvas.')
-      },
-      {
-        id: 'gws-104',
-        title: 'Module 4: Workspace AI Companions (GWS 104)',
-        description: 'Gemini Web App and NotebookLM Plus integration.',
-        icon: Presentation,
-        stepsData: generateModuleSteps('gws-104', 'Workspace AI Companions', 'Gemini Web App and NotebookLM Plus integration.')
-      },
-      {
-        id: 'gws-201',
-        title: 'Module 5: Transitioning Your Workflows (GWS 201)',
-        description: 'Tactical shifts such as moving from Excel to Sheets.',
-        icon: Presentation,
-        stepsData: generateModuleSteps('gws-201', 'Transitioning Your Workflows', 'Tactical shifts such as moving from Excel to Sheets.')
-      },
-      {
-        id: 'gws-301',
-        title: 'Lab 1: Workspace Power User Lab (GWS 301)',
-        description: 'Advanced sharing, AppSheet automation, and complex scheduling.',
-        icon: Terminal,
-        stepsData: generateLabSteps('gws-301', 'Workspace Power User Lab', 'Advanced sharing, AppSheet automation, and complex scheduling.')
-      },
-      {
-        id: 'gws-401',
-        title: 'Lab 2: Workspace Administration & Security (GWS 401)',
-        description: 'Admin console, OUs, DLP policies, and lifecycle management.',
-        icon: SettingsIcon,
-        stepsData: generateLabSteps('gws-401', 'Workspace Administration & Security', 'Admin console, OUs, DLP policies, and lifecycle management.')
-      }
-    ]
-  },
-  {
-    id: 'tour-intel-advantage',
-    title: 'The Intelligence Advantage',
-    description: 'Master Standalone Gemini Enterprise and foundational Generative AI principles.',
-    icon: Lightbulb,
-    labs: [
-      {
-        id: 'ge-101',
-        title: 'Module 1: Introduction to Gemini Enterprise (GE 101)',
-        description: 'Understanding the capabilities of Gemini and core AI concepts.',
-        icon: Presentation,
-        stepsData: generateModuleSteps('ge-101', 'Introduction to Gemini Enterprise', 'Understanding the capabilities of Gemini and core AI concepts.')
-      },
-      {
-        id: 'ge-401',
-        title: 'Lab 1: AI Administration & Governance (GE 401)',
-        description: 'Administering AI access, monitoring usage, and data governance.',
-        icon: SettingsIcon,
-        stepsData: generateLabSteps('ge-401', 'AI Administration & Governance', 'Administering AI access, monitoring usage, and data governance.')
-      }
-    ]
-  },
-  {
-    id: 'tour-secure-edge',
-    title: 'The Secure Edge',
-    description: 'Browsing, Virtualization, and zero-trust security with Chrome Enterprise.',
-    icon: Key,
-    labs: [
-      {
-        id: 'cep-101',
-        title: 'Module 1: Navigating Chrome Enterprise Premium (CEP 101)',
-        description: 'Access changes, secure enterprise browsing, and download protections.',
-        icon: Presentation,
-        stepsData: generateModuleSteps('cep-101', 'Navigating Chrome Enterprise Premium', 'Access changes, secure enterprise browsing, and download protections.')
-      },
-      {
-        id: 'cep-201',
-        title: 'Module 2: Secure Remote Work Best Practices (CEP 201)',
-        description: 'Role-specific workflows for off-network users.',
-        icon: Presentation,
-        stepsData: generateModuleSteps('cep-201', 'Secure Remote Work Best Practices', 'Role-specific workflows for off-network users.')
-      },
-      {
-        id: 'cameyo-101',
-        title: 'Module 3: Accessing Legacy Apps via Cameyo (CameYO 101)',
-        description: 'Accessing traditional desktop applications within Chrome.',
-        icon: Presentation,
-        stepsData: generateModuleSteps('cameyo-101', 'Accessing Legacy Apps via Cameyo', 'Accessing traditional desktop applications within Chrome.')
-      },
-      {
-        id: 'cep-401',
-        title: 'Lab 1: Chrome Enterprise Premium Administration (CEP 401)',
-        description: 'Access policies, security telemetry, and fleet management.',
-        icon: SettingsIcon,
-        stepsData: generateLabSteps('cep-401', 'Chrome Enterprise Premium Administration', 'Access policies, security telemetry, and fleet management.')
-      }
-    ]
-  },
-  {
-    id: 'tour-agentic-frontier',
-    title: 'The Agentic Frontier',
-    description: 'Workflows, Automation, and the future of AI agents.',
-    icon: Zap,
-    labs: [
-      {
-        id: 'aw-101',
-        title: 'Module 1: Understanding the Agentic Workplace (AW 101)',
-        description: 'Demystifying AI agents vs. traditional automation.',
-        icon: Presentation,
-        stepsData: generateModuleSteps('aw-101', 'Understanding the Agentic Workplace', 'Demystifying AI agents vs. traditional automation.')
-      },
-      {
-        id: 'aw-201',
-        title: 'Module 2: Managing the "Co-Pilot" (AW 201)',
-        description: 'Interacting with automated agents like recruitment assistants.',
-        icon: Presentation,
-        stepsData: generateModuleSteps('aw-201', 'Managing the Co-Pilot', 'Interacting with automated agents like recruitment assistants.')
-      },
-      {
-        id: 'aw-301',
-        title: 'Lab 1: Process Mapping & "The Second Workload" (AW 301)',
-        description: 'Identifying and documenting departmental bottlenecks for future builds.',
-        icon: FileCode2,
-        stepsData: generateLabSteps('aw-301', 'Process Mapping & The Second Workload', 'Identifying and documenting departmental bottlenecks for future builds.')
-      },
-      {
-        id: 'aw-401',
-        title: 'Lab 2: Agentic Infrastructure & Policy Management (AW 401)',
-        description: 'Ecosystem oversight, API thresholds, and audit trails.',
-        icon: SettingsIcon,
-        stepsData: generateLabSteps('aw-401', 'Agentic Infrastructure & Policy Management', 'Ecosystem oversight, API thresholds, and audit trails.')
-      },
-      {
-        id: 'aw-402',
-        title: 'Lab 3: Antigravity IDE Setup & Usage (AW 402)',
+        id: 'lab-1',
+        title: 'Module 2: Antigravity IDE Setup & Usage',
         description: 'Configure your workspace and learn how to drive autonomous agents to write, test, and refactor code.',
-        icon: Monitor,
+        icon: 'Monitor',
         stepsData: [
           {
             id: 'ag-intro',
-            title: 'Lab 3 Overview',
-            icon: BookOpen,
+            title: 'Lab 1 Overview',
+            icon: 'BookOpen',
             content: () => (
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-main tracking-tight">Welcome to Lab 3: Antigravity IDE</h2>
+                <h2 className="text-2xl font-bold text-main tracking-tight">Welcome to Lab 1: Antigravity IDE</h2>
                 <p className="text-muted text-lg">
                   Antigravity IDE is more than just an editor with autocomplete; it is a fully agentic workspace. In this lab, we will go beyond installation and learn how to actually <em>drive</em> the AI.
                 </p>
@@ -623,7 +500,7 @@ const coursesData = [
           {
             id: 'ag-install',
             title: '1. Install & Configure',
-            icon: Monitor,
+            icon: 'Monitor',
             content: () => (
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-main tracking-tight">Installation & Initial Setup</h2>
@@ -680,7 +557,7 @@ const coursesData = [
           {
             id: 'ag-first-task',
             title: '2. Your First Agent Task',
-            icon: Zap,
+            icon: 'Zap',
             content: () => (
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-main tracking-tight">Driving the IDE</h2>
@@ -747,7 +624,7 @@ const coursesData = [
           {
             id: 'ag-rules',
             title: '3. Context & Rules',
-            icon: FileCode2,
+            icon: 'FileCode2',
             content: () => (
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-main tracking-tight">Guiding the Agent</h2>
@@ -783,7 +660,7 @@ const coursesData = [
           {
             id: 'ag-usage',
             title: '4. Local Offloading & Gemma 4',
-            icon: SettingsIcon,
+            icon: 'SettingsIcon',
             content: () => (
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-main tracking-tight">Managing Agent Costs</h2>
@@ -835,14 +712,14 @@ ollama run gemma4:e4b
           },
           {
             id: 'ag-completion',
-            title: 'Lab Complete',
-            icon: Award,
+            title: 'Lab 1 Complete',
+            icon: 'Award',
             content: () => (
               <div className="text-center space-y-6 py-10">
                 <div className="mx-auto w-24 h-24 bg-accent-muted rounded-full flex items-center justify-center mb-6 border border-accent">
                   <Award size={48} className="text-accent" />
                 </div>
-                <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab Complete!</h2>
+                <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab 1 Complete!</h2>
                 <p className="text-muted max-w-md mx-auto text-lg">
                   You've successfully installed Antigravity IDE, executed your first multi-file agentic task, and learned how to offload tasks to local Gemma 4 models.
                 </p>
@@ -861,18 +738,18 @@ ollama run gemma4:e4b
         ]
       },
       {
-        id: 'aw-403',
-        title: 'Lab 4: Terminal & Cloud Agents (AW 403)',
+        id: 'lab-2',
+        title: 'Module 3: Terminal & Cloud Agents',
         description: 'Deploy Gemini CLI for local scripting and unleash Jules for asynchronous background engineering tasks.',
-        icon: Terminal,
+        icon: 'Terminal',
         stepsData: [
           {
             id: 'cj-intro',
-            title: 'Lab 4 Overview',
-            icon: BookOpen,
+            title: 'Lab 2 Overview',
+            icon: 'BookOpen',
             content: () => (
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-main tracking-tight">Welcome to Lab 4: Terminal & Cloud Agents</h2>
+                <h2 className="text-2xl font-bold text-main tracking-tight">Welcome to Lab 2: Terminal & Cloud Agents</h2>
                 <p className="text-muted text-lg">
                   Antigravity handles your active workspace, but true velocity requires automation. In this lab, we will bring AI to your command line and offload heavy maintenance to the cloud.
                 </p>
@@ -890,7 +767,7 @@ ollama run gemma4:e4b
           {
             id: 'cj-gemini',
             title: '1. Gemini CLI Workflows',
-            icon: Terminal,
+            icon: 'Terminal',
             content: () => (
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-main tracking-tight">Supercharging the Terminal</h2>
@@ -932,7 +809,7 @@ gemini auth login" language="bash" />
           {
             id: 'cj-jules',
             title: '2. Jules: The Cloud Agent',
-            icon: Cloud,
+            icon: 'Cloud',
             content: () => (
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-main tracking-tight">Deploying Jules</h2>
@@ -967,7 +844,7 @@ jules auth login" language="bash" />
           {
             id: 'cj-action',
             title: '3. Your First Cloud PR',
-            icon: GitPullRequest,
+            icon: 'GitPullRequest',
             content: () => (
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-main tracking-tight">Dispatching Work</h2>
@@ -1013,14 +890,14 @@ jules run 'Find all deprecated API calls in the /src directory and update them. 
           },
           {
             id: 'cj-completion',
-            title: 'Lab Complete',
-            icon: Award,
+            title: 'Lab 2 Complete',
+            icon: 'Award',
             content: () => (
               <div className="text-center space-y-6 py-10">
                 <div className="mx-auto w-24 h-24 bg-accent-muted rounded-full flex items-center justify-center mb-6 border border-accent">
                   <Award size={48} className="text-accent" />
                 </div>
-                <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab Complete!</h2>
+                <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab 2 Complete!</h2>
                 <p className="text-muted max-w-md mx-auto text-lg">
                   You have successfully configured the Gemini CLI and dispatched an asynchronous background task using Jules.
                 </p>
@@ -1048,20 +925,140 @@ jules run 'Find all deprecated API calls in the /src directory and update them. 
         ]
       }
     ]
+  },
+  {
+    id: 'course-gcp',
+    category: 'Cloud Infrastructure',
+    courseNumber: 'GCP-101',
+    status: 'published',
+    title: 'Google Cloud Vertex AI Fundamentals',
+    description: 'Learn how to deploy, tune, and scale open-weights foundation models on Google Cloud Vertex AI infrastructure.',
+    icon: 'Cloud',
+    labs: [
+      {
+        id: 'v1-lab-1',
+        title: 'Lab 1: Model Garden & Endpoints',
+        description: 'Deploy your first foundation model from the Vertex AI Model Garden to an active endpoint.',
+        icon: 'Zap',
+        stepsData: [
+          {
+            id: 'v1-intro',
+            title: 'Overview',
+            icon: 'BookOpen',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Welcome to Vertex AI</h2>
+                <p className="text-muted">This is a placeholder lab to demonstrate the multi-course learning portal functionality.</p>
+              </div>
+            )
+          },
+          {
+            id: 'v1-completion',
+            title: 'Lab Complete',
+            icon: 'Award',
+            content: () => (
+              <div className="text-center space-y-6 py-10">
+                <div className="mx-auto w-24 h-24 bg-accent-muted rounded-full flex items-center justify-center mb-6 border border-accent">
+                  <Award size={48} className="text-accent" />
+                </div>
+                <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab Complete!</h2>
+                <p className="text-muted text-lg">You have successfully completed this module.</p>
+              </div>
+            )
+          }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'course-connected-worker',
+    category: 'Productivity & Collaboration',
+    courseNumber: 'GWS-200',
+    status: 'published',
+    title: 'The Connected Worker',
+    description: 'Drive Google Workspace & Productivity transformation across your organization.',
+    icon: 'Cloud',
+    labs: [
+      { id: 'gws-101', title: 'Module 1: Welcome to Google Workspace (GWS 101)', description: 'High-level project vision, case for change, timeline, and executive tour.', icon: 'Presentation', stepsData: generateModuleSteps('gws-101', 'Welcome to Google Workspace', 'High-level project vision, case for change, timeline, and executive tour.') },
+      { id: 'gws-102', title: 'Module 2: Communication Deep Dive (GWS 102)', description: 'Detailed training on Gmail, Google Chat, and Google Meet.', icon: 'Presentation', stepsData: generateModuleSteps('gws-102', 'Communication Deep Dive', 'Detailed training on Gmail, Google Chat, and Google Meet.') },
+      { id: 'gws-301', title: 'Lab 1: Workspace Power User Lab (GWS 301)', description: 'Advanced sharing, AppSheet automation, and complex scheduling.', icon: 'Terminal', stepsData: generateLabSteps('gws-301', 'Workspace Power User Lab', 'Advanced sharing, AppSheet automation, and complex scheduling.') }
+    ]
+  },
+  {
+    id: 'course-intel-advantage',
+    category: 'Generative AI Foundations',
+    courseNumber: 'AI-101',
+    status: 'published',
+    title: 'The Intelligence Advantage',
+    description: 'Master Standalone Gemini Enterprise and foundational Generative AI principles.',
+    icon: 'Lightbulb',
+    labs: [
+      { id: 'ge-101', title: 'Module 1: Intro to Gemini Enterprise (GE 101)', description: 'Understanding the capabilities of Gemini and core AI concepts.', icon: 'Presentation', stepsData: generateModuleSteps('ge-101', 'Intro to Gemini Enterprise', 'Understanding the capabilities of Gemini and core AI concepts.') },
+      { id: 'ge-401', title: 'Lab 1: AI Administration & Governance (GE 401)', description: 'Administering AI access, monitoring usage, and data governance.', icon: 'SettingsIcon', stepsData: generateLabSteps('ge-401', 'AI Administration & Governance', 'Administering AI access, monitoring usage, and data governance.') }
+    ]
+  },
+  {
+    id: 'course-secure-edge',
+    category: 'Security & Zero Trust',
+    courseNumber: 'SEC-300',
+    status: 'published',
+    title: 'The Secure Edge',
+    description: 'Browsing, Virtualization, and zero-trust security with Chrome Enterprise.',
+    icon: 'Key',
+    labs: [
+      { id: 'cep-101', title: 'Module 1: Navigating Chrome Enterprise Premium (CEP 101)', description: 'Access changes, secure enterprise browsing, and download protections.', icon: 'Presentation', stepsData: generateModuleSteps('cep-101', 'Navigating Chrome Enterprise Premium', 'Access changes, secure enterprise browsing, and download protections.') },
+      { id: 'cep-401', title: 'Lab 1: Chrome Enterprise Premium Administration (CEP 401)', description: 'Access policies, security telemetry, and fleet management.', icon: 'SettingsIcon', stepsData: generateLabSteps('cep-401', 'Chrome Enterprise Premium Administration', 'Access policies, security telemetry, and fleet management.') }
+    ]
+  },
+  // --- DRAFT STUBS ---
+  {
+    id: 'course-rag-systems',
+    category: 'Developer & Engineering',
+    courseNumber: 'DEV-500',
+    status: 'draft',
+    title: 'Advanced RAG Systems Implementation',
+    description: 'A deep dive into Retrieval-Augmented Generation, vector databases, and grounding your models with enterprise data.',
+    icon: 'FileCode2',
+    labs: []
+  },
+  {
+    id: 'course-k8s-fleet',
+    category: 'Cloud Infrastructure',
+    courseNumber: 'GCP-202',
+    status: 'draft',
+    title: 'Kubernetes Cluster Fleet Management',
+    description: 'Managing multi-region GKE clusters using Anthos and modern GitOps pipelines.',
+    icon: 'Monitor',
+    labs: []
+  },
+  {
+    id: 'course-beyondcorp',
+    category: 'Security & Zero Trust',
+    courseNumber: 'SEC-400',
+    status: 'draft',
+    title: 'BeyondCorp Enterprise Implementation',
+    description: 'Transitioning from legacy VPNs to context-aware, zero-trust access controls across your global workforce.',
+    icon: 'Key',
+    labs: []
   }
 ];
 
 // --- MAIN APPLICATION APP COMPONENT ---
 export default function App() {
+  const [coursesData, setCoursesData] = useState(initialCoursesData);
+  
+  // Navigation State
   const [activeCourseId, setActiveCourseId] = useState(null);
   const [activeLabId, setActiveLabId] = useState(null);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [completedSteps, setCompletedSteps] = useState(new Set());
   const [enrolledCourses, setEnrolledCourses] = useState(new Set());
   const [portalTab, setPortalTab] = useState('catalog');
+  const [viewMode, setViewMode] = useState('grid');
   
-  // Settings State 
+  // Settings & Authoring State 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [editingCourse, setEditingCourse] = useState(null);
   const [theme, setTheme] = useState('dark');
   const [autoAdvance, setAutoAdvance] = useState(true);
 
@@ -1121,7 +1118,7 @@ export default function App() {
     newCompleted.add(currentStep.id);
     setCompletedSteps(newCompleted);
 
-    if (!isLastStep) {
+    if (!isLastStep && autoAdvance) {
       setCurrentStepIndex(prev => prev + 1);
     }
   };
@@ -1138,6 +1135,251 @@ export default function App() {
     newEnrolled.add(courseId);
     setEnrolledCourses(newEnrolled);
     setPortalTab('my-courses');
+  };
+
+  // --- AUTHORING HANDLERS ---
+  const handleCreateCourse = () => {
+    const newCourse = {
+      id: `course-${Date.now()}`,
+      category: 'New Category',
+      courseNumber: 'NEW-100',
+      status: 'draft',
+      title: 'New Course',
+      description: 'Describe the outcome and goal of this learning path.',
+      icon: 'Cloud',
+      labs: []
+    };
+    setEditingCourse(newCourse);
+  };
+
+  const handleEditCourse = (course, e) => {
+    if (e) e.stopPropagation();
+    setEditingCourse(JSON.parse(JSON.stringify(course))); // deep clone
+  };
+
+  const handleSaveCourse = () => {
+    if (!editingCourse) return;
+    
+    setCoursesData(prev => {
+      const exists = prev.find(c => c.id === editingCourse.id);
+      if (exists) {
+        return prev.map(c => c.id === editingCourse.id ? editingCourse : c);
+      }
+      return [...prev, editingCourse];
+    });
+    setEditingCourse(null);
+  };
+
+  const handleDeleteCourse = () => {
+    if (!editingCourse || !window.confirm("Are you sure you want to delete this course?")) return;
+    setCoursesData(prev => prev.filter(c => c.id !== editingCourse.id));
+    setEditingCourse(null);
+  };
+
+  // --- AUTHORING MODAL COMPONENT ---
+  const CourseBuilderModal = () => {
+    if (!editingCourse) return null;
+
+    const addModule = () => {
+      const id = `mod-${Date.now()}`;
+      setEditingCourse({
+        ...editingCourse,
+        labs: [...editingCourse.labs, {
+          id,
+          title: 'Module: New Presentation',
+          description: 'A new video and slide deck review module.',
+          icon: 'Presentation',
+          stepsData: generateModuleSteps(id, 'New Presentation', 'Review the architectural concepts.')
+        }]
+      });
+    };
+
+    const addLab = () => {
+      const id = `lab-${Date.now()}`;
+      setEditingCourse({
+        ...editingCourse,
+        labs: [...editingCourse.labs, {
+          id,
+          title: 'Lab: New Hands-on Exercise',
+          description: 'A new terminal-based execution lab.',
+          icon: 'Terminal',
+          stepsData: generateLabSteps(id, 'New Hands-on Exercise', 'Execute the assigned configuration tasks.')
+        }]
+      });
+    };
+
+    const removeLab = (idx) => {
+      const newLabs = [...editingCourse.labs];
+      newLabs.splice(idx, 1);
+      setEditingCourse({ ...editingCourse, labs: newLabs });
+    };
+
+    const updateLab = (idx, field, value) => {
+      const newLabs = [...editingCourse.labs];
+      newLabs[idx][field] = value;
+      setEditingCourse({ ...editingCourse, labs: newLabs });
+    };
+
+    return (
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-8 animate-in fade-in duration-200">
+        <div className="bg-panel border border-main shadow-2xl rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+          
+          <div className="flex items-center justify-between p-5 border-b border-main bg-muted">
+            <h3 className="font-bold text-main flex items-center gap-2 text-lg">
+              <Edit3 size={20} className="text-accent" /> Course Authoring Builder
+            </h3>
+            <button onClick={() => setEditingCourse(null)} className="text-muted hover:text-accent transition-colors bg-base p-1.5 rounded-full border border-main">
+              <X size={18} />
+            </button>
+          </div>
+
+          <div className="p-6 overflow-y-auto flex-1 space-y-8 custom-scrollbar">
+            {/* Metadata Section */}
+            <div className="space-y-4">
+              <h4 className="font-bold text-main text-lg border-b border-main pb-2">Course Metadata</h4>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Course Title</label>
+                  <input 
+                    type="text" 
+                    value={editingCourse.title}
+                    onChange={(e) => setEditingCourse({...editingCourse, title: e.target.value})}
+                    className="w-full bg-base border border-main rounded-lg p-3 text-main focus:outline-none focus:border-accent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Category</label>
+                  <input 
+                    type="text" 
+                    value={editingCourse.category || ''}
+                    onChange={(e) => setEditingCourse({...editingCourse, category: e.target.value})}
+                    className="w-full bg-base border border-main rounded-lg p-3 text-main focus:outline-none focus:border-accent"
+                    placeholder="e.g. Developer & Engineering"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Course Number</label>
+                  <input 
+                    type="text" 
+                    value={editingCourse.courseNumber || ''}
+                    onChange={(e) => setEditingCourse({...editingCourse, courseNumber: e.target.value})}
+                    className="w-full bg-base border border-main rounded-lg p-3 text-main focus:outline-none focus:border-accent"
+                    placeholder="e.g. DEV-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Status</label>
+                  <select
+                    value={editingCourse.status || 'published'}
+                    onChange={(e) => setEditingCourse({...editingCourse, status: e.target.value})}
+                    className="w-full bg-base border border-main rounded-lg p-3 text-main focus:outline-none focus:border-accent appearance-none"
+                  >
+                    <option value="published">Published</option>
+                    <option value="draft">Draft</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Description</label>
+                <textarea 
+                  value={editingCourse.description}
+                  onChange={(e) => setEditingCourse({...editingCourse, description: e.target.value})}
+                  className="w-full bg-base border border-main rounded-lg p-3 text-main h-24 focus:outline-none focus:border-accent"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-muted mb-2 uppercase tracking-wide">Course Icon</label>
+                <div className="flex flex-wrap gap-3">
+                  {['Cloud', 'Terminal', 'Monitor', 'Lightbulb', 'Key', 'Zap', 'Presentation', 'FileCode2'].map(i => (
+                    <button 
+                      key={i}
+                      onClick={() => setEditingCourse({...editingCourse, icon: i})}
+                      className={`p-3 rounded-lg border transition-all ${editingCourse.icon === i ? 'border-accent bg-accent-muted text-accent shadow-sm' : 'border-main text-muted hover:border-accent hover:text-accent bg-base'}`}
+                    >
+                      <DynamicIcon name={i} size={24} />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Curriculum Section */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-main pb-2">
+                <h4 className="font-bold text-main text-lg">Curriculum</h4>
+                <div className="flex gap-2">
+                  <button onClick={addModule} className="text-xs font-bold bg-base border border-main hover:border-accent text-muted hover:text-accent px-3 py-1.5 rounded flex items-center gap-1 transition-colors"><Plus size={14}/> Add Module (100/200)</button>
+                  <button onClick={addLab} className="text-xs font-bold bg-base border border-main hover:border-accent text-muted hover:text-accent px-3 py-1.5 rounded flex items-center gap-1 transition-colors"><Plus size={14}/> Add Lab (300/400)</button>
+                </div>
+              </div>
+
+              {editingCourse.labs.length === 0 ? (
+                <div className="text-center py-10 border-2 border-dashed border-main rounded-xl">
+                  <p className="text-muted font-medium">No curriculum items yet. Add a Module or Lab to begin.</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {editingCourse.labs.map((lab, index) => (
+                    <div key={lab.id} className="bg-base border border-main rounded-xl p-4 flex gap-4">
+                      <div className="mt-1 bg-muted p-2 rounded border border-main text-muted shrink-0">
+                        <DynamicIcon name={lab.icon} size={20} />
+                      </div>
+                      <div className="flex-1 space-y-3">
+                        <input 
+                          type="text" 
+                          value={lab.title}
+                          onChange={(e) => updateLab(index, 'title', e.target.value)}
+                          className="w-full bg-panel border border-main rounded p-2 text-sm font-bold text-main focus:outline-none focus:border-accent"
+                          placeholder="Module / Lab Title"
+                        />
+                        <input 
+                          type="text" 
+                          value={lab.description}
+                          onChange={(e) => updateLab(index, 'description', e.target.value)}
+                          className="w-full bg-panel border border-main rounded p-2 text-sm text-main focus:outline-none focus:border-accent"
+                          placeholder="Short description..."
+                        />
+                      </div>
+                      <button onClick={() => removeLab(index)} className="text-muted hover:text-red-500 shrink-0 self-start p-2"><Trash2 size={18}/></button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="p-5 border-t border-main bg-muted flex justify-between items-center">
+            <button 
+              onClick={handleDeleteCourse}
+              className="text-red-500 hover:text-red-600 font-bold text-sm flex items-center gap-1"
+            >
+              <Trash2 size={16}/> Delete Course
+            </button>
+            <div className="flex gap-3">
+              <button 
+                onClick={() => setEditingCourse(null)}
+                className="px-6 py-2.5 rounded-lg text-sm font-bold uppercase tracking-wide border border-main text-muted hover:text-main bg-base transition-colors"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleSaveCourse}
+                className="accent-btn px-6 py-2.5 rounded-lg text-sm font-bold uppercase tracking-wide flex items-center gap-2"
+              >
+                <Save size={16}/> Save Course
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    );
   };
 
   // --- SETTINGS MODAL ---
@@ -1206,6 +1448,7 @@ export default function App() {
     <div className={`theme-${theme} app-bg min-h-screen transition-colors duration-300 font-sans`}>
       <style>{themeStyles}</style>
       <SettingsModal />
+      <CourseBuilderModal />
 
       {/* ============================================================================
       // VIEW 1: MY LEARNING PORTAL (List of assigned courses)
@@ -1217,7 +1460,7 @@ export default function App() {
               <TridorianLogo size={36} className="text-accent" />
               <div>
                 <h1 className="text-2xl font-bold text-main leading-none tracking-tight lowercase">tridorian</h1>
-                <p className="text-[10px] text-muted font-bold uppercase tracking-[0.2em] mt-1">Partner Portal</p>
+                <p className="text-[10px] text-muted font-bold uppercase tracking-[0.2em] mt-1">Partner Portal v0.2</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -1232,22 +1475,30 @@ export default function App() {
 
           {/* Tab Navigation */}
           <div className="bg-panel border-b border-main sticky top-[81px] z-10 transition-colors duration-200">
-            <div className="max-w-6xl mx-auto px-6 flex gap-8">
-              <button
-                onClick={() => setPortalTab('catalog')}
-                className={`py-4 text-sm font-bold border-b-2 transition-all ${portalTab === 'catalog' ? 'border-accent text-accent' : 'border-transparent text-muted hover:text-main'}`}
-              >
-                Course Catalog
-              </button>
-              <button
-                onClick={() => setPortalTab('my-courses')}
-                className={`py-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${portalTab === 'my-courses' ? 'border-accent text-accent' : 'border-transparent text-muted hover:text-main'}`}
-              >
-                My Assigned Courses
-                <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${portalTab === 'my-courses' ? 'bg-accent text-accent-fg' : 'bg-muted text-muted'}`}>
-                  {enrolledCourses.size}
-                </span>
-              </button>
+            <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
+              <div className="flex gap-8">
+                <button
+                  onClick={() => setPortalTab('catalog')}
+                  className={`py-4 text-sm font-bold border-b-2 transition-all ${portalTab === 'catalog' ? 'border-accent text-accent' : 'border-transparent text-muted hover:text-main'}`}
+                >
+                  Course Catalog
+                </button>
+                <button
+                  onClick={() => setPortalTab('my-courses')}
+                  className={`py-4 text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${portalTab === 'my-courses' ? 'border-accent text-accent' : 'border-transparent text-muted hover:text-main'}`}
+                >
+                  My Assigned Courses
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${portalTab === 'my-courses' ? 'bg-accent text-accent-fg' : 'bg-muted text-muted'}`}>
+                    {enrolledCourses.size}
+                  </span>
+                </button>
+              </div>
+              {portalTab === 'catalog' && (
+                <div className="hidden sm:flex items-center gap-1 bg-muted p-1 rounded-lg border border-main">
+                  <button onClick={() => setViewMode('grid')} className={`p-1.5 rounded-md transition-colors ${viewMode === 'grid' ? 'bg-panel shadow-sm text-main' : 'text-muted hover:text-main'}`} title="Grid View"><Grid size={16}/></button>
+                  <button onClick={() => setViewMode('list')} className={`p-1.5 rounded-md transition-colors ${viewMode === 'list' ? 'bg-panel shadow-sm text-main' : 'text-muted hover:text-main'}`} title="List View"><ListIcon size={16}/></button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -1277,68 +1528,177 @@ export default function App() {
               </div>
             )}
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {coursesData
-                .filter(course => portalTab === 'catalog' || enrolledCourses.has(course.id))
-                .map((course) => {
-                  const CourseIcon = course.icon;
-                  const progress = getCourseProgress(course);
-                  const isComplete = progress.percentage === 100;
-                  const isEnrolled = enrolledCourses.has(course.id);
+            <div className="space-y-16">
+              {(() => {
+                const visibleCourses = coursesData.filter(course => portalTab === 'catalog' || enrolledCourses.has(course.id));
+                const groupedCourses = visibleCourses.reduce((acc, course) => {
+                  const cat = course.category || 'Uncategorized';
+                  if (!acc[cat]) acc[cat] = [];
+                  acc[cat].push(course);
+                  return acc;
+                }, {});
 
-                  return (
-                    <div key={course.id} className="bg-panel rounded-2xl border border-main shadow-sm hover:shadow-xl hover:border-accent transition-all overflow-hidden flex flex-col group">
-                      <div
-                        className={`p-8 flex-1 ${isEnrolled ? 'cursor-pointer' : ''}`}
-                        onClick={() => isEnrolled ? handleStartCourse(course.id) : null}
-                      >
-                        <div className="flex items-start justify-between mb-6">
-                          <div className={`p-4 rounded-xl transition-colors ${isComplete ? 'bg-accent-muted text-accent' : 'bg-muted text-main group-hover:bg-accent group-hover:text-accent-fg'}`}>
-                            <CourseIcon size={32} />
+                return Object.entries(groupedCourses).map(([category, courses]) => (
+                  <div key={category} className="space-y-6">
+                    <h3 className="text-2xl font-bold text-main border-b-2 border-main inline-block pb-2 pr-8 tracking-tight">
+                      {category}
+                    </h3>
+                    <div className={viewMode === 'grid' ? "grid md:grid-cols-2 lg:grid-cols-3 gap-8" : "flex flex-col gap-5"}>
+                      {courses.map((course) => {
+                        const progress = getCourseProgress(course);
+                        const isComplete = progress.percentage === 100;
+                        const isEnrolled = enrolledCourses.has(course.id);
+                        const isDraft = course.status === 'draft';
+
+                        if (viewMode === 'list') {
+                          return (
+                            <div key={course.id} className="bg-panel rounded-2xl border border-main shadow-sm hover:shadow-md hover:border-accent transition-all overflow-hidden flex flex-col md:flex-row group relative">
+                              {portalTab === 'catalog' && (
+                                 <button 
+                                   onClick={(e) => handleEditCourse(course, e)}
+                                   className="absolute top-4 right-4 z-10 p-2 bg-base rounded-lg border border-main text-muted hover:text-accent hover:border-accent opacity-0 group-hover:opacity-100 transition-all shadow-sm"
+                                   title="Edit Course Content"
+                                 >
+                                   <Edit3 size={16} />
+                                 </button>
+                              )}
+                              <div 
+                                className={`p-6 flex-1 flex flex-col md:flex-row gap-6 items-start md:items-center ${isEnrolled ? 'cursor-pointer' : ''}`}
+                                onClick={() => isEnrolled ? handleStartCourse(course.id) : null}
+                              >
+                                <div className={`p-4 rounded-xl shrink-0 transition-colors ${isComplete ? 'bg-accent-muted text-accent' : 'bg-muted text-main group-hover:bg-accent group-hover:text-accent-fg'}`}>
+                                  <DynamicIcon name={course.icon} size={32} />
+                                </div>
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-2 mb-1">
+                                    <span className="text-xs font-bold text-muted uppercase tracking-widest">{course.courseNumber || 'Course'}</span>
+                                    {isDraft && <span className="bg-amber-500/10 text-amber-600 border border-amber-500/20 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-widest">Draft</span>}
+                                  </div>
+                                  <h3 className="text-xl font-bold text-main mb-2 tracking-tight">{course.title}</h3>
+                                  <p className="text-sm text-muted line-clamp-2 leading-relaxed max-w-2xl">{course.description}</p>
+                                </div>
+                              </div>
+                              <div className="p-6 border-t md:border-t-0 md:border-l border-main bg-base w-full md:w-64 flex flex-col justify-center shrink-0 gap-4">
+                                <div>
+                                  <div className="flex justify-between text-xs text-muted font-bold uppercase tracking-wider mb-2">
+                                    <span>{course.labs?.length || 0} Modules</span>
+                                    {isEnrolled && <span className="text-accent">{Math.round(progress.percentage)}%</span>}
+                                  </div>
+                                  <div className="w-full bg-muted h-2 rounded-full overflow-hidden border border-main">
+                                    <div
+                                      className={`h-full transition-all duration-500 bg-accent`}
+                                      style={{ width: `${isEnrolled ? progress.percentage : 0}%` }}
+                                    />
+                                  </div>
+                                </div>
+                                {isEnrolled ? (
+                                  <button
+                                    onClick={() => handleStartCourse(course.id)}
+                                    className="flex w-full items-center justify-between text-sm font-bold text-main group-hover:text-accent uppercase tracking-wide bg-panel border border-main rounded-lg px-4 py-2 hover:border-accent transition-colors"
+                                  >
+                                    <span>{isComplete ? 'Review' : progress.percentage > 0 ? 'Resume' : 'Start'}</span>
+                                    <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={(e) => handleEnroll(course.id, e)}
+                                    className="flex w-full items-center justify-center gap-2 accent-btn py-2 rounded-lg text-sm font-bold uppercase tracking-wide transition-colors"
+                                  >
+                                    <Plus size={16} /> Assign to Me
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <div key={course.id} className="bg-panel rounded-2xl border border-main shadow-sm hover:shadow-xl hover:border-accent transition-all overflow-hidden flex flex-col group relative h-full">
+                            {/* Editor Access */}
+                            {portalTab === 'catalog' && (
+                               <button 
+                                 onClick={(e) => handleEditCourse(course, e)}
+                                 className="absolute top-4 right-4 z-10 p-2 bg-base rounded-lg border border-main text-muted hover:text-accent hover:border-accent opacity-0 group-hover:opacity-100 transition-all shadow-sm"
+                                 title="Edit Course Content"
+                               >
+                                 <Edit3 size={16} />
+                               </button>
+                            )}
+
+                            <div
+                              className={`p-8 flex-1 ${isEnrolled ? 'cursor-pointer' : ''}`}
+                              onClick={() => isEnrolled ? handleStartCourse(course.id) : null}
+                            >
+                              <div className="flex items-start justify-between mb-6">
+                                <div className={`p-4 rounded-xl transition-colors ${isComplete ? 'bg-accent-muted text-accent' : 'bg-muted text-main group-hover:bg-accent group-hover:text-accent-fg'}`}>
+                                  <DynamicIcon name={course.icon} size={32} />
+                                </div>
+                                <div className="flex flex-col gap-2 items-end">
+                                  {isDraft && <span className="bg-amber-500/10 text-amber-600 border border-amber-500/20 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Draft</span>}
+                                  {isComplete && <span className="bg-accent text-accent-fg text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 uppercase tracking-wide shadow-accent"><CheckCircle2 size={12}/> Completed</span>}
+                                  {!isEnrolled && !isComplete && <span className="bg-accent text-accent-fg text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-accent">New</span>}
+                                </div>
+                              </div>
+                              <div className="text-xs font-bold text-muted uppercase tracking-widest mb-2">{course.courseNumber || 'Course'}</div>
+                              <h3 className="text-xl font-bold text-main mb-3 tracking-tight">{course.title}</h3>
+                              <p className="text-sm text-muted line-clamp-3 leading-relaxed">
+                                {course.description}
+                              </p>
+                            </div>
+
+                            <div className="px-8 pb-6 shrink-0">
+                              <div className="flex justify-between text-xs text-muted font-bold uppercase tracking-wider mb-2">
+                                <span>{course.labs?.length || 0} Modules & Labs</span>
+                                {isEnrolled && <span className="text-accent">{Math.round(progress.percentage)}%</span>}
+                              </div>
+                              <div className="w-full bg-muted h-2 rounded-full overflow-hidden border border-main">
+                                <div
+                                  className={`h-full transition-all duration-500 bg-accent`}
+                                  style={{ width: `${isEnrolled ? progress.percentage : 0}%` }}
+                                />
+                              </div>
+                            </div>
+
+                            <div className="p-5 border-t border-main bg-base shrink-0">
+                              {isEnrolled ? (
+                                <button
+                                  onClick={() => handleStartCourse(course.id)}
+                                  className="flex w-full items-center justify-between text-sm font-bold text-main group-hover:text-accent uppercase tracking-wide"
+                                >
+                                  <span>{isComplete ? 'Review Course' : progress.percentage > 0 ? 'Resume Course' : 'Start Course'}</span>
+                                  <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={(e) => handleEnroll(course.id, e)}
+                                  className="flex w-full items-center justify-center gap-2 accent-btn py-3 rounded-lg font-bold uppercase tracking-wide transition-colors"
+                                >
+                                  <Plus size={18} /> Assign to Me
+                                </button>
+                              )}
+                            </div>
                           </div>
-                          {isComplete && <span className="bg-accent text-accent-fg text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 uppercase tracking-wide"><CheckCircle2 size={12}/> Completed</span>}
-                          {!isEnrolled && <span className="bg-accent text-accent-fg text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide shadow-accent">New</span>}
-                        </div>
-                        <h3 className="text-xl font-bold text-main mb-3 tracking-tight">{course.title}</h3>
-                        <p className="text-sm text-muted line-clamp-3 leading-relaxed">
-                          {course.description}
-                        </p>
-                      </div>
-
-                      <div className="px-8 pb-6">
-                        <div className="flex justify-between text-xs text-muted font-bold uppercase tracking-wider mb-2">
-                          <span>{course.labs.length} Labs</span>
-                          {isEnrolled && <span className="text-accent">{Math.round(progress.percentage)}%</span>}
-                        </div>
-                        <div className="w-full bg-muted h-2 rounded-full overflow-hidden border border-main">
-                          <div
-                            className={`h-full transition-all duration-500 bg-accent`}
-                            style={{ width: `${isEnrolled ? progress.percentage : 0}%` }}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="p-5 border-t border-main bg-base">
-                        {isEnrolled ? (
-                          <button
-                            onClick={() => handleStartCourse(course.id)}
-                            className="flex w-full items-center justify-between text-sm font-bold text-main group-hover:text-accent uppercase tracking-wide"
-                          >
-                            <span>{isComplete ? 'Review Course' : progress.percentage > 0 ? 'Resume Course' : 'Start Course'}</span>
-                            <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                          </button>
-                        ) : (
-                          <button
-                            onClick={(e) => handleEnroll(course.id, e)}
-                            className="flex w-full items-center justify-center gap-2 accent-btn py-3 rounded-lg font-bold uppercase tracking-wide transition-colors"
-                          >
-                            <Plus size={18} /> Assign to Me
-                          </button>
-                        )}
-                      </div>
+                        );
+                      })}
                     </div>
-                  );
-                })}
+                  </div>
+                ));
+              })()}
+
+              {portalTab === 'catalog' && (
+                <div className="pt-8 border-t border-main mt-12">
+                   <button 
+                     onClick={handleCreateCourse}
+                     className="w-full bg-panel rounded-2xl border-2 border-dashed border-main shadow-sm hover:border-accent hover:bg-accent-muted transition-all py-12 flex flex-col items-center justify-center text-muted hover:text-accent group"
+                   >
+                     <div className="w-16 h-16 rounded-full bg-base border border-main flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                       <Plus size={32} />
+                     </div>
+                     <h3 className="text-xl font-bold tracking-tight">Create Custom Course</h3>
+                     <p className="text-sm mt-2 max-w-md text-center">Add a new learning path to the catalog. You can assign it to a new or existing category.</p>
+                   </button>
+                </div>
+              )}
             </div>
           </main>
         </div>
@@ -1362,7 +1722,7 @@ export default function App() {
                 </button>
                 <div className="h-8 w-px bg-main hidden sm:block border-l border-main"></div>
                 <div className="hidden sm:flex items-center gap-3">
-                   <activeCourse.icon size={24} className="text-accent" />
+                   <DynamicIcon name={activeCourse.icon} size={24} className="text-accent" />
                    <h1 className="text-xl font-bold text-main leading-tight tracking-tight">{activeCourse.title}</h1>
                 </div>
               </div>
@@ -1386,16 +1746,20 @@ export default function App() {
             </header>
 
             <main className="max-w-5xl mx-auto p-6 md:p-10 w-full flex-1">
-              <div className="mb-10 text-center md:text-left">
-                <h2 className="text-3xl font-extrabold text-main mb-4 tracking-tight">Course Modules</h2>
-                <p className="text-muted text-lg max-w-3xl">
-                  Complete the labs below in sequence to finish the course.
-                </p>
+              <div className="mb-10 text-center md:text-left flex justify-between items-end">
+                <div>
+                  <h2 className="text-3xl font-extrabold text-main mb-4 tracking-tight">Course Modules</h2>
+                  <p className="text-muted text-lg max-w-3xl">
+                    Complete the modules and hands-on labs below in sequence.
+                  </p>
+                </div>
+                <button onClick={(e) => handleEditCourse(activeCourse, e)} className="hidden md:flex items-center gap-2 text-sm font-bold text-muted hover:text-accent bg-base px-4 py-2 border border-main rounded-lg transition-colors">
+                  <Edit3 size={16} /> Edit Track
+                </button>
               </div>
 
               <div className="grid md:grid-cols-2 gap-8">
                 {activeCourse.labs.map((lab) => {
-                  const LabIcon = lab.icon;
                   const labProgress = getLabProgress(lab);
                   const isLabComplete = labProgress.percentage === 100;
                   
@@ -1404,7 +1768,7 @@ export default function App() {
                       <div className="p-8 flex-1">
                         <div className="flex items-center gap-5 mb-5">
                           <div className={`p-4 rounded-xl ${isLabComplete ? 'bg-accent text-accent-fg shadow-accent' : 'bg-muted text-main border border-main'}`}>
-                            {isLabComplete ? <CheckCircle2 size={28} /> : <LabIcon size={28} />}
+                            {isLabComplete ? <CheckCircle2 size={28} /> : <DynamicIcon name={lab.icon} size={28} />}
                           </div>
                           <div>
                             <h3 className="text-xl font-bold text-main tracking-tight">{lab.title}</h3>
@@ -1427,7 +1791,7 @@ export default function App() {
                               : 'accent-btn'
                           }`}
                         >
-                          {isLabComplete ? 'Review Lab' : labProgress.completed > 0 ? 'Resume Lab' : 'Start Lab'}
+                          {isLabComplete ? 'Review' : labProgress.completed > 0 ? 'Resume' : 'Start'}
                           {!isLabComplete && <PlayCircle size={18} />}
                         </button>
                       </div>
@@ -1444,7 +1808,6 @@ export default function App() {
       // VIEW 3: ACTIVE LAB (Step by step guide)
       // ============================================================================ */}
       {activeLabId && (() => {
-        const StepIcon = currentStep.icon;
         const labProgress = getLabProgress(activeLab);
         
         return (
@@ -1480,9 +1843,11 @@ export default function App() {
               {/* Sidebar Navigation */}
               <aside className="w-full md:w-72 shrink-0">
                 <div className="bg-panel rounded-2xl border border-main shadow-sm overflow-hidden sticky top-24 transition-colors duration-200">
-                  <div className="p-5 bg-base border-b border-main flex items-center gap-2">
-                    <Layout size={18} className="text-muted" />
-                    <h3 className="font-bold text-main uppercase tracking-widest text-xs">Lab Steps</h3>
+                  <div className="p-5 bg-base border-b border-main flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                       <Layout size={18} className="text-muted" />
+                       <h3 className="font-bold text-main uppercase tracking-widest text-xs">Steps</h3>
+                    </div>
                   </div>
                   <nav className="p-3 space-y-1">
                     {stepsData.map((step, index) => {
@@ -1522,13 +1887,13 @@ export default function App() {
                   
                   {/* Step Header */}
                   <div className="flex items-center gap-3 text-accent mb-8 shrink-0 border-b border-main pb-6">
-                    <StepIcon size={32} />
+                    <DynamicIcon name={currentStep?.icon} size={32} />
                     <span className="text-sm font-bold tracking-widest uppercase">Step {currentStepIndex + 1} of {stepsData.length}</span>
                   </div>
 
                   {/* Dynamic Content */}
                   <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 pb-28 flex-1">
-                    <currentStep.content />
+                    {currentStep && <currentStep.content />}
                   </div>
 
                   {/* Bottom Actions */}
