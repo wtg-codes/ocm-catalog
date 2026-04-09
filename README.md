@@ -61,14 +61,7 @@ For a detailed breakdown of the project structure and technology choices, please
 
 ## Refactor Status
 
-The project is currently undergoing a multi-phase refactor:
-
-- [x] **Phase 1:** Project Initialization & Core Styling (Complete)
-- [x] **Phase 2:** Data Modeling & Strict Typing (Complete)
-- [ ] **Phase 3:** Zustand Global State Implementation
-- [ ] **Phase 4:** Atomic Component Decomposition
-- [ ] **Phase 5:** CI/CD & Deployment Automation
-- [ ] **Phase 6:** Final Documentation
+This project is currently undergoing a multi-phase refactor. For the most up-to-date progress, please refer to the [to-do.md](./to-do.md) file.
 
 ## License
 
