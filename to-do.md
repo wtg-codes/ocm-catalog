@@ -30,19 +30,19 @@
 ---
 
 ## Phase 3: Global State Management (Zustand)
-- [ ] **Step 3.1: Initialize Zustand Store**
-  - [ ] Create `src/store/useAppStore.ts`.
-  - [ ] Define `AppState` and `AppActions` interfaces.
-  - [ ] Implement domains: Navigation (active IDs), User Progress (Sets/Arrays), Settings.
-  - [ ] *Verification:* Manual state logging and action testing.
-- [ ] **Step 3.2: Implement State Persistence & Serialization**
-  - [ ] Add `persist` middleware.
-  - [ ] Implement serialization logic for `Set` fields or refactor to use `Array` internally.
-  - [ ] *Verification:* Browser refresh persistence test.
-- [ ] **Step 3.3: Connect App Logic to Store**
-  - [ ] Replace `useState` in `App.tsx` with store hooks.
-  - [ ] Update all handlers (start course, enroll, next/prev step) to use store actions.
-  - [ ] *Verification:* End-to-end journey test (Enroll -> Progress -> Complete).
+- [x] **Step 3.1: Initialize Zustand Store**
+  - [x] Create `src/store/useAppStore.ts`.
+  - [x] Define `AppState` and `AppActions` interfaces.
+  - [x] Implement domains: Navigation (active IDs), User Progress (Sets/Arrays), Settings.
+  - [x] *Verification:* Manual state logging and action testing.
+- [x] **Step 3.2: Implement State Persistence & Serialization**
+  - [x] Add `persist` middleware.
+  - [x] Implement serialization logic for `Set` fields or refactor to use `Array` internally.
+  - [x] *Verification:* Browser refresh persistence test.
+- [x] **Step 3.3: Connect App Logic to Store**
+  - [x] Replace `useState` in `App.tsx` with store hooks.
+  - [x] Update all handlers (start course, enroll, next/prev step) to use store actions.
+  - [x] *Verification:* End-to-end journey test (Enroll -> Progress -> Complete).
 
 ---
 
