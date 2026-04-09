@@ -20,12 +20,7 @@
 ---
 
 ## Phase 2: Data Modeling, Mock Data, & Strict Typing
-- [ ] **Step 2.1: Define Core TypeScript Interfaces**
-  - [ ] Create `src/types/index.ts`.
-  - [ ] Define `Step`, `Lab`, `Course` interfaces.
-  - [ ] Type `Step.content` as a React functional component returning `ReactNode`.
-  - [ ] Define literal types for `Status` ('published' | 'draft') and `PortalTab`.
-  - [ ] *Verification:* Run `tsc --noEmit`.
+- [x] **Step 2.1: Define Core TypeScript Interfaces** (DONE)
 - [ ] **Step 2.2: Extract Mock Data & Utility Components**
   - [ ] Create `src/data/mockData.tsx` (must be .tsx as it contains JSX).
   - [ ] Move `initialCoursesData`, `generateModuleSteps`, and `generateLabSteps` to this file.
