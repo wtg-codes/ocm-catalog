@@ -8,7 +8,7 @@ export interface Step {
   id: string;
   title: string;
   icon: string;
-  content: React.FC<Record<string, unknown>>;
+  content: React.FC;
 }
 
 export interface Lab {
