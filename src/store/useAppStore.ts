@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { PortalTab, ViewMode } from '../types';
 
 interface AppState {
@@ -45,7 +46,9 @@ interface AppActions {
   prevStep: () => void;
 }
 
-export const useAppStore = create<AppState & AppActions>((set) => ({
+export const useAppStore = create<AppState & AppActions>()(
+  persist(
+    (set) => ({
   // Initial State
   activeCourseId: null,
   activeLabId: null,
@@ -125,4 +128,7 @@ export const useAppStore = create<AppState & AppActions>((set) => ({
   prevStep: () => set((state) => ({
     currentStepIndex: Math.max(0, state.currentStepIndex - 1)
   })),
-}));
+    }),
+    { name: "ocm-lms-store" }
+  )
+);

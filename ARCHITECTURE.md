@@ -46,15 +46,4 @@ Tailwind is configured to use these variables, enabling utility classes to adapt
 
 ## Refactor Roadmap
 
-1. **Phase 1: Project Initialization & Core Styling Foundation** (Complete)
-   - Established Vite + React + TS environment and Tailwind CSS integration.
-2. **Phase 2: Data Modeling, Mock Data, & Strict Typing**
-   - Extracting types and mock data from the legacy monolith.
-3. **Phase 3: Global State Management Implementation**
-   - Migrating state logic to Zustand.
-4. **Phase 4: Atomic Component Decomposition**
-   - Breaking down the UI into modular, reusable components.
-5. **Phase 5: CI/CD Pipeline & GitHub Pages Deployment**
-   - Automating builds and deployments.
-6. **Phase 6: Repository Documentation**
-   - Finalizing documentation and handoff.
+The project follows a 6-phase refactor roadmap. Detailed progress and task breakdowns are tracked in the [to-do.md](./to-do.md) file.
