@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
-import { initialCoursesData } from '../../data/mockData';
 import { SidebarNavigation } from '../layout/SidebarNavigation';
 import { DynamicIcon } from '../../utils/iconRegistry';
 
@@ -13,10 +12,11 @@ export const ActiveLabEngine: React.FC = () => {
     currentStepIndex,
     nextStep,
     prevStep,
-    completedStepIds
+    completedStepIds,
+    courses
   } = useAppStore();
 
-  const activeCourse = initialCoursesData.find(c => c.id === activeCourseId);
+  const activeCourse = courses.find(c => c.id === activeCourseId);
   const activeLab = activeCourse?.labs.find(l => l.id === activeLabId);
 
   if (!activeLab) return null;
