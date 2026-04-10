@@ -62,14 +62,14 @@
 
 ---
 
-## Phase 5: CI/CD & Deployment
-- [ ] **Step 5.1: GitHub Actions Workflows**
-  - [ ] Create `.github/workflows/pr-check.yml` (Lint, Type-check, Build).
-  - [ ] Create `.github/workflows/deploy-pages.yml` (Build and Deploy).
-  - [ ] *Verification:* Run workflows on push/PR.
-- [ ] **Step 5.2: Deployment Configuration**
-  - [ ] Ensure `vite.config.ts` has `base: './'`.
-  - [ ] *Verification:* Production build preview check.
+## Phase 5: CI/CD & Deployment (DONE)
+- [x] **Step 5.1: GitHub Actions Workflows**
+  - [x] Create `.github/workflows/pr-check.yml` (Lint, Type-check, Build).
+  - [x] Create `.github/workflows/deploy-pages.yml` (Build and Deploy).
+  - [x] *Verification:* Run workflows on push/PR.
+- [x] **Step 5.2: Deployment Configuration**
+  - [x] Ensure `vite.config.ts` has `base: './'`.
+  - [x] *Verification:* Production build preview check.
 
 ---
 
