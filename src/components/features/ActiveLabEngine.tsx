@@ -31,29 +31,28 @@ export const ActiveLabEngine: React.FC = () => {
     : 0;
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="bg-panel border-b border-main px-6 py-4 flex items-center justify-between sticky top-0 z-10 transition-colors duration-200 shadow-sm">
+    <div className="flex flex-col min-h-screen bg-base">
+      <header className="bg-panel/80 backdrop-blur-md border-b border-main px-6 h-16 flex items-center justify-between sticky top-0 z-30 transition-colors duration-200">
         <div className="flex items-center gap-4">
           <button
             onClick={() => returnToCourse()}
-            className="text-muted hover:text-accent transition-colors flex items-center gap-1.5 text-sm font-bold bg-muted hover:bg-accent-muted border border-transparent hover:border-accent px-3 py-1.5 rounded-lg uppercase tracking-wide"
+            className="text-text-muted hover:text-main transition-colors flex items-center gap-1.5 text-[10px] font-bold bg-muted/50 hover:bg-muted border border-subtle px-3 py-1.5 rounded-md uppercase tracking-widest active:scale-95"
           >
-            <ArrowLeft size={16} /> Course
+            <ArrowLeft size={14} /> Exit Lab
           </button>
-          <div className="h-6 w-px border-l border-main hidden sm:block"></div>
+          <div className="h-4 w-px bg-border-main hidden sm:block"></div>
           <div className="hidden sm:block">
-            <h1 className="text-lg font-bold text-main leading-tight tracking-tight">{activeLab.title}</h1>
+            <h1 className="text-sm font-bold text-main tracking-tight">{activeLab.title}</h1>
           </div>
         </div>
         <div className="flex items-center gap-4 w-64">
-          <span className="text-xs text-muted font-bold uppercase tracking-widest hidden sm:block">Progress</span>
-          <div className="flex-1 bg-muted border border-main h-2.5 rounded-full overflow-hidden">
+          <div className="flex-1 bg-muted h-1.5 rounded-full overflow-hidden shadow-inner">
             <div
-              className="bg-accent h-full transition-all duration-500 ease-out"
+              className="bg-accent h-full transition-all duration-700 ease-out shadow-accent"
               style={{ width: `${labProgress}%` }}
             />
           </div>
-          <span className="text-sm font-bold text-main">
+          <span className="text-xs font-black text-accent tracking-tighter w-8 text-right">
             {Math.round(labProgress)}%
           </span>
         </div>
@@ -63,39 +62,43 @@ export const ActiveLabEngine: React.FC = () => {
         <SidebarNavigation steps={steps} />
 
         <main className="flex-1 flex flex-col">
-          <div className="bg-panel rounded-2xl border border-main shadow-sm p-6 sm:p-10 flex-1 relative overflow-hidden flex flex-col transition-colors duration-200">
+          <div className="bg-panel rounded-lg border border-main shadow-sm p-6 sm:p-8 flex-1 relative overflow-hidden flex flex-col transition-colors duration-200">
 
-            <div className="flex items-center gap-3 text-accent mb-8 shrink-0 border-b border-main pb-6">
-              <DynamicIcon name={currentStep?.icon} size={32} />
-              <span className="text-sm font-bold tracking-widest uppercase">Step {currentStepIndex + 1} of {steps.length}</span>
+            <div className="flex items-center gap-3 text-accent mb-8 shrink-0 border-b border-subtle pb-6">
+              <div className="p-2 bg-accent/10 rounded-md">
+                <DynamicIcon name={currentStep?.icon} size={24} />
+              </div>
+              <span className="text-[10px] font-black tracking-widest uppercase opacity-70">
+                Step {currentStepIndex + 1} / {steps.length}
+              </span>
             </div>
 
-            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 pb-28 flex-1">
+            <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 pb-28 flex-1">
               {currentStep && <currentStep.content />}
             </div>
 
-            <div className="absolute bottom-0 left-0 right-0 bg-panel border-t border-main p-6 flex items-center justify-between transition-colors duration-200">
+            <div className="absolute bottom-0 left-0 right-0 bg-panel border-t border-subtle p-6 flex items-center justify-between transition-colors duration-200">
               <button
                 onClick={prevStep}
                 disabled={currentStepIndex === 0}
-                className="px-5 py-2.5 text-muted hover:text-main disabled:opacity-30 disabled:hover:text-muted flex items-center gap-2 font-bold uppercase tracking-wide text-sm transition-colors border border-transparent hover:border-main rounded-lg"
+                className="px-4 py-2 text-text-muted hover:text-main disabled:opacity-20 disabled:cursor-not-allowed flex items-center gap-2 font-bold uppercase tracking-widest text-[10px] transition-colors border border-transparent hover:border-main rounded-md active:scale-95"
               >
-                <ChevronLeft size={20} /> Back
+                <ChevronLeft size={16} /> Previous
               </button>
 
               {!isLastStep ? (
                 <button
                   onClick={() => nextStep(currentStep.id, isLastStep)}
-                  className="accent-btn px-8 py-3 rounded-lg font-bold flex items-center gap-2 uppercase tracking-wide text-sm"
+                  className="accent-btn px-6 py-2.5 rounded-md font-bold flex items-center gap-2 uppercase tracking-widest text-[10px] active:scale-95 shadow-sm"
                 >
-                  Mark Complete & Continue <ChevronRight size={20} />
+                  Continue <ChevronRight size={16} />
                 </button>
               ) : (
                 <button
                   onClick={() => returnToCourse(currentStep.id)}
-                  className="accent-btn px-8 py-3 rounded-lg font-bold flex items-center gap-2 uppercase tracking-wide text-sm"
+                  className="accent-btn px-6 py-2.5 rounded-md font-bold flex items-center gap-2 uppercase tracking-widest text-[10px] active:scale-95 shadow-sm"
                 >
-                  Return to Course <Check size={20} />
+                  Complete Lab <Check size={16} />
                 </button>
               )}
             </div>

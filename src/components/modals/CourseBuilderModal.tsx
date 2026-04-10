@@ -54,62 +54,71 @@ export const CourseBuilderModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-8 animate-in fade-in duration-200">
-      <div className="bg-panel border border-main shadow-2xl rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-md z-50 flex items-center justify-center p-4 sm:p-8 animate-in fade-in duration-300">
+      <div className="bg-panel border border-main shadow-elevated rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
 
-        <div className="flex items-center justify-between p-5 border-b border-main bg-muted">
-          <h3 className="font-bold text-main flex items-center gap-2 text-lg">
-            <Edit3 size={20} className="text-accent" /> Course Authoring Builder
+        <div className="flex items-center justify-between px-6 py-4 border-b border-subtle bg-muted/30">
+          <h3 className="font-black text-main flex items-center gap-3 text-sm uppercase tracking-widest">
+            <Edit3 size={18} className="text-accent" /> Course Authoring
           </h3>
-          <button onClick={() => setCourseBuilderOpen(false)} className="text-muted hover:text-accent transition-colors bg-base p-1.5 rounded-full border border-main">
+          <button
+            onClick={() => setCourseBuilderOpen(false)}
+            className="p-1.5 text-text-muted hover:text-main hover:bg-muted rounded-md transition-colors border border-subtle"
+          >
             <X size={18} />
           </button>
         </div>
 
-        <div className="p-6 overflow-y-auto flex-1 space-y-8 custom-scrollbar">
-          <div className="space-y-4">
-            <h4 className="font-bold text-main text-lg border-b border-main pb-2">Course Metadata</h4>
+        <div className="p-8 overflow-y-auto flex-1 space-y-10 custom-scrollbar bg-panel">
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+               <div className="w-1 h-6 bg-accent rounded-full" />
+               <h4 className="font-bold text-main text-base tracking-tight">Course Metadata</h4>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Course Title</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-text-muted uppercase tracking-widest">Course Title</label>
                 <input
                   type="text"
                   value={editingCourse.title}
                   onChange={(e) => setEditingCourse({...editingCourse, title: e.target.value})}
-                  className="w-full bg-base border border-main rounded-lg p-3 text-main focus:outline-none focus:border-accent"
+                  className="w-full bg-muted/20 border border-subtle rounded-md p-3 text-sm text-main focus:outline-none focus:ring-1 focus:ring-accent/50 focus:border-accent/50 transition-all"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Track Category</label>
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-text-muted uppercase tracking-widest">Track Category</label>
                 <input
                   type="text"
                   value={editingCourse.category}
                   onChange={(e) => setEditingCourse({...editingCourse, category: e.target.value})}
-                  className="w-full bg-base border border-main rounded-lg p-3 text-main focus:outline-none focus:border-accent"
+                  className="w-full bg-muted/20 border border-subtle rounded-md p-3 text-sm text-main focus:outline-none focus:ring-1 focus:ring-accent/50 focus:border-accent/50 transition-all"
                 />
               </div>
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center justify-between border-b border-main pb-2">
-              <h4 className="font-bold text-main text-lg">Curriculum Modules</h4>
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                 <div className="w-1 h-6 bg-accent rounded-full" />
+                 <h4 className="font-bold text-main text-base tracking-tight">Curriculum Modules</h4>
+              </div>
               <div className="flex gap-2">
-                <button onClick={addModule} className="text-xs font-bold uppercase tracking-widest bg-muted hover:bg-main hover:text-white px-3 py-1.5 rounded-lg border border-main transition-colors flex items-center gap-1.5">
-                  <Plus size={14} /> Add Module
+                <button onClick={addModule} className="text-[10px] font-black uppercase tracking-widest bg-panel hover:bg-muted text-main px-3 py-2 rounded-md border border-subtle transition-all flex items-center gap-2 active:scale-95 shadow-sm">
+                  <Plus size={14} /> Module
                 </button>
-                <button onClick={addLab} className="text-xs font-bold uppercase tracking-widest bg-muted hover:bg-main hover:text-white px-3 py-1.5 rounded-lg border border-main transition-colors flex items-center gap-1.5">
-                  <Plus size={14} /> Add Lab
+                <button onClick={addLab} className="text-[10px] font-black uppercase tracking-widest bg-panel hover:bg-muted text-main px-3 py-2 rounded-md border border-subtle transition-all flex items-center gap-2 active:scale-95 shadow-sm">
+                  <Plus size={14} /> Lab
                 </button>
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {editingCourse.labs.map((lab, idx) => (
-                <div key={lab.id} className="bg-base border border-main rounded-xl p-5 group relative">
-                  <button onClick={() => removeLab(idx)} className="absolute top-4 right-4 text-muted hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Trash2 size={18} />
+                <div key={lab.id} className="bg-muted/10 border border-subtle rounded-md p-5 group relative hover:border-accent/20 transition-colors">
+                  <button onClick={() => removeLab(idx)} className="absolute top-4 right-4 p-2 text-text-muted hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity rounded-md hover:bg-red-50 dark:hover:bg-red-950/20">
+                    <Trash2 size={16} />
                   </button>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="md:col-span-2 space-y-4">
@@ -117,30 +126,31 @@ export const CourseBuilderModal: React.FC = () => {
                         type="text"
                         value={lab.title}
                         onChange={(e) => updateLabField(idx, 'title', e.target.value)}
-                        className="w-full bg-panel border border-main rounded-lg p-2.5 font-bold text-main"
+                        className="w-full bg-panel border border-subtle rounded-md p-2.5 text-sm font-bold text-main focus:outline-none focus:border-accent/40"
                         placeholder="Lab Title"
                       />
                       <textarea
                         value={lab.description}
                         onChange={(e) => updateLabField(idx, 'description', e.target.value)}
-                        className="w-full bg-panel border border-main rounded-lg p-2.5 text-sm text-muted h-20"
+                        className="w-full bg-panel border border-subtle rounded-md p-2.5 text-xs text-text-muted h-20 focus:outline-none focus:border-accent/40 resize-none"
                         placeholder="Lab Description"
                       />
                     </div>
                     <div className="space-y-4">
-                       <label className="block text-xs font-bold text-muted uppercase tracking-widest">Icon Hook</label>
+                       <label className="block text-[10px] font-black text-text-muted uppercase tracking-widest">Icon</label>
                        <select
                         value={lab.icon}
                         onChange={(e) => updateLabField(idx, 'icon', e.target.value)}
-                        className="w-full bg-panel border border-main rounded-lg p-2.5 text-sm text-main"
+                        className="w-full bg-panel border border-subtle rounded-md p-2.5 text-xs text-main focus:outline-none focus:border-accent/40 appearance-none"
                        >
-                         <option value="Presentation">Presentation (Module)</option>
-                         <option value="Terminal">Terminal (Lab)</option>
+                         <option value="Presentation">Presentation</option>
+                         <option value="Terminal">Terminal</option>
                          <option value="Monitor">Monitor</option>
                          <option value="Cloud">Cloud</option>
                        </select>
-                       <div className="pt-4">
-                         <span className="text-xs font-bold text-accent uppercase tracking-widest">{lab.stepsData.length} Steps Generated</span>
+                       <div className="flex items-center gap-2 px-1">
+                         <div className="w-1.5 h-1.5 bg-accent rounded-full" />
+                         <span className="text-[10px] font-black text-accent uppercase tracking-widest">{lab.stepsData.length} Steps</span>
                        </div>
                     </div>
                   </div>
@@ -150,12 +160,12 @@ export const CourseBuilderModal: React.FC = () => {
           </div>
         </div>
 
-        <div className="p-6 border-t border-main bg-muted flex items-center justify-between">
-          <p className="text-xs text-muted font-medium">Changes are only saved to the local session in this prototype.</p>
-          <div className="flex gap-3">
-            <button onClick={() => setCourseBuilderOpen(false)} className="px-6 py-2.5 rounded-lg font-bold text-muted hover:text-main transition-colors uppercase tracking-widest text-xs">Cancel</button>
-            <button onClick={() => setCourseBuilderOpen(false)} className="accent-btn px-8 py-2.5 rounded-lg font-bold flex items-center gap-2 uppercase tracking-widest text-xs">
-              <Save size={16} /> Save Track
+        <div className="px-8 py-5 border-t border-subtle bg-muted/20 flex items-center justify-between">
+          <p className="text-[10px] text-text-muted font-bold uppercase tracking-widest opacity-60">Internal Drafting Mode</p>
+          <div className="flex gap-2">
+            <button onClick={() => setCourseBuilderOpen(false)} className="px-4 py-2.5 rounded-md font-bold text-text-muted hover:text-main transition-colors uppercase tracking-widest text-[10px] active:scale-95">Cancel</button>
+            <button onClick={() => setCourseBuilderOpen(false)} className="accent-btn px-6 py-2.5 rounded-md font-bold flex items-center gap-2 uppercase tracking-widest text-[10px] active:scale-95 shadow-sm">
+              <Save size={14} /> Commit Changes
             </button>
           </div>
         </div>

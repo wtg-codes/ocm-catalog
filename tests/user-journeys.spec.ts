@@ -7,7 +7,7 @@ test.describe('OCM LMS User Journeys', () => {
 
   test('Catalog navigation and enrollment', async ({ page }) => {
     // 1. Check Catalog Heading
-    await expect(page.getByText('Course Catalog', { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Catalog' })).toBeVisible();
 
     // 2. View Details of the first course (Clicking the card area)
     const firstCourseCard = page.locator('.grid > div').first();
@@ -23,9 +23,9 @@ test.describe('OCM LMS User Journeys', () => {
     // Check if "Enroll in Track" button is gone
     await expect(enrollBtn).not.toBeVisible();
 
-    // 4. Go back to catalog and verify "My Enrolled Courses" tab
+    // 4. Go back to catalog and verify "My Tracks" tab
     await page.getByText(/Back to/).click();
-    await expect(page.getByText('My Enrolled Courses')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'My Tracks' })).toBeVisible();
     await expect(page.getByText('Continue Track')).toBeVisible();
   });
 
@@ -39,36 +39,35 @@ test.describe('OCM LMS User Journeys', () => {
 
     // 3. Verify Lab Engine
     await expect(page.locator('aside')).toBeVisible(); // Sidebar
-    await expect(page.getByText(/Step 1 of/)).toBeVisible();
+    await expect(page.getByText(/Step 1 \//i)).toBeVisible();
 
     // 4. Navigate steps
-    await page.getByRole('button', { name: /Mark Complete & Continue/i }).click();
-    await expect(page.getByText(/Step 2 of/)).toBeVisible();
+    await page.getByRole('button', { name: /Continue/i }).click();
+    await expect(page.getByText(/Step 2 \//i)).toBeVisible();
 
     // 5. Return to course
-    await page.getByRole('button', { name: /Course/i }).click();
+    await page.getByRole('button', { name: /Exit Lab/i }).click();
     await expect(page.getByText(/Back to/)).toBeVisible();
   });
 
   test('Theme and view mode switching', async ({ page }) => {
     // 1. Toggle view mode
     await page.getByRole('button').filter({ has: page.locator('svg.lucide-list') }).click();
-    await expect(page.locator('.space-y-6')).toBeVisible();
+    await expect(page.locator('.space-y-4')).toBeVisible();
 
     // 2. Open settings and change theme
     await page.getByRole('button').filter({ has: page.locator('svg.lucide-settings') }).click();
 
     // Ensure modal is visible
-    await expect(page.getByText('Portal Settings')).toBeVisible();
+    await expect(page.getByText('SETTINGS', { exact: false })).toBeVisible();
 
     await page.getByRole('button', { name: 'Kitten' }).click();
 
     // Verify theme class on body
     await expect(page.locator('body')).toHaveClass(/theme-kitten/);
 
-    // Close settings by clicking overlay or the close button
-    // The close button has rotate-90 on the icon
-    await page.getByRole('button').filter({ has: page.locator('svg.rotate-90') }).click();
-    await expect(page.getByText('Portal Settings')).not.toBeVisible();
+    // Close settings
+    await page.getByRole('button').filter({ has: page.locator('svg.lucide-x') }).click();
+    await expect(page.getByText('SETTINGS', { exact: false })).not.toBeVisible();
   });
 });
