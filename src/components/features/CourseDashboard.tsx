@@ -1,5 +1,5 @@
 import React from 'react';
-import { PlayCircle, Edit3 } from 'lucide-react';
+import { PlayCircle, Edit3, PlusCircle } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
 import { initialCoursesData } from '../../data/mockData';
 import { DynamicIcon } from '../../utils/iconRegistry';
@@ -10,33 +10,48 @@ export const CourseDashboard: React.FC = () => {
     setActiveCourseId,
     portalTab,
     startLab,
-    setCourseBuilderOpen
+    setCourseBuilderOpen,
+    enrolledCourseIds,
+    enrollCourse
   } = useAppStore();
 
   const activeCourse = initialCoursesData.find((c) => c.id === activeCourseId);
+  const isEnrolled = activeCourseId ? enrolledCourseIds.includes(activeCourseId) : false;
 
   if (!activeCourse) return null;
 
   return (
     <div className="animate-in fade-in duration-500">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-        <div>
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 mb-8">
+        <div className="flex-1">
           <button
             onClick={() => setActiveCourseId(null)}
             className="mb-4 text-muted hover:text-accent font-bold flex items-center gap-2 transition-colors uppercase tracking-widest text-xs"
           >
             Back to {portalTab === 'catalog' ? 'Catalog' : 'My Courses'}
           </button>
-          <h2 className="text-4xl font-extrabold text-main tracking-tight">{activeCourse.title}</h2>
-          <p className="text-muted mt-4 text-xl max-w-3xl">{activeCourse.description}</p>
+          <div className="flex items-center gap-4 mb-4">
+            <h2 className="text-4xl font-extrabold text-main tracking-tight">{activeCourse.title}</h2>
+            {!isEnrolled && (
+              <button
+                onClick={() => enrollCourse(activeCourse.id)}
+                className="bg-accent text-accent-fg px-4 py-1.5 rounded-full font-bold text-xs uppercase tracking-widest shadow-accent flex items-center gap-2 hover:scale-105 transition-transform"
+              >
+                <PlusCircle size={14} /> Enroll in Track
+              </button>
+            )}
+          </div>
+          <p className="text-muted text-xl max-w-3xl font-medium">{activeCourse.description}</p>
         </div>
 
-        <button
-          onClick={() => setCourseBuilderOpen(true)}
-          className="flex items-center gap-2 text-sm font-bold text-muted hover:text-accent bg-base px-4 py-2 border border-main rounded-lg transition-colors"
-        >
-          <Edit3 size={16} /> Edit Track
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={() => setCourseBuilderOpen(true)}
+            className="flex items-center gap-2 text-sm font-bold text-muted hover:text-accent bg-base px-4 py-2 border border-main rounded-lg transition-colors whitespace-nowrap"
+          >
+            <Edit3 size={16} /> Edit Track
+          </button>
+        </div>
       </div>
 
       <div className="mt-12 grid md:grid-cols-2 gap-8">
@@ -52,7 +67,7 @@ export const CourseDashboard: React.FC = () => {
                     <p className="text-sm text-muted font-bold uppercase tracking-wide mt-1">{lab.stepsData.length} Steps</p>
                   </div>
                 </div>
-                <p className="text-muted leading-relaxed">{lab.description}</p>
+                <p className="text-muted leading-relaxed font-medium">{lab.description}</p>
               </div>
               <div className="bg-base border-t border-main p-5">
                  <button
