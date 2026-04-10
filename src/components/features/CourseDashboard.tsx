@@ -1,25 +1,43 @@
 import React from 'react';
-import { PlayCircle } from 'lucide-react';
+import { PlayCircle, Edit3 } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
 import { initialCoursesData } from '../../data/mockData';
 import { DynamicIcon } from '../../utils/iconRegistry';
 
 export const CourseDashboard: React.FC = () => {
-  const { activeCourseId, setActiveCourseId, portalTab, startLab } = useAppStore();
+  const {
+    activeCourseId,
+    setActiveCourseId,
+    portalTab,
+    startLab,
+    setCourseBuilderOpen
+  } = useAppStore();
+
   const activeCourse = initialCoursesData.find((c) => c.id === activeCourseId);
 
   if (!activeCourse) return null;
 
   return (
     <div className="animate-in fade-in duration-500">
-       <button
-        onClick={() => setActiveCourseId(null)}
-        className="mb-8 text-muted hover:text-accent font-bold flex items-center gap-2 transition-colors uppercase tracking-widest text-xs"
-      >
-        Back to {portalTab === 'catalog' ? 'Catalog' : 'My Courses'}
-      </button>
-      <h2 className="text-4xl font-extrabold text-main tracking-tight">{activeCourse.title}</h2>
-      <p className="text-muted mt-4 text-xl max-w-3xl">{activeCourse.description}</p>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+        <div>
+          <button
+            onClick={() => setActiveCourseId(null)}
+            className="mb-4 text-muted hover:text-accent font-bold flex items-center gap-2 transition-colors uppercase tracking-widest text-xs"
+          >
+            Back to {portalTab === 'catalog' ? 'Catalog' : 'My Courses'}
+          </button>
+          <h2 className="text-4xl font-extrabold text-main tracking-tight">{activeCourse.title}</h2>
+          <p className="text-muted mt-4 text-xl max-w-3xl">{activeCourse.description}</p>
+        </div>
+
+        <button
+          onClick={() => setCourseBuilderOpen(true)}
+          className="flex items-center gap-2 text-sm font-bold text-muted hover:text-accent bg-base px-4 py-2 border border-main rounded-lg transition-colors"
+        >
+          <Edit3 size={16} /> Edit Track
+        </button>
+      </div>
 
       <div className="mt-12 grid md:grid-cols-2 gap-8">
         {activeCourse.labs.map((lab) => (

@@ -46,9 +46,9 @@
 
 ---
 
-## Phase 4: Atomic Component Decomposition
+## Phase 4: Atomic Component Decomposition (DONE)
 - [x] **Step 4.1: Common UI Atoms**
-  - [ ] Extract `CodeBlock.tsx`, `DeepDive.tsx`, `RefLink.tsx`, `TridorianLogo.tsx` to `src/components/common/`.
+  - [x] Extract `CodeBlock.tsx`, `DeepDive.tsx`, `RefLink.tsx`, `TridorianLogo.tsx` to `src/components/common/`.
   - [x] *Verification:* Frontend visual regression check (Playwright).
 - [x] **Step 4.2: Layout Components**
   - [x] Extract `Header.tsx` (dynamic progress bar) and `SidebarNavigation.tsx` (steps nav).
@@ -57,8 +57,8 @@
   - [x] Extract `CourseCatalog.tsx`, `CourseCard.tsx`, `CourseDashboard.tsx`, `ActiveLabEngine.tsx`.
   - [x] *Verification:* Independent view verification (Playwright).
 - [x] **Step 4.4: Modals**
-  - [ ] Extract `SettingsModal.tsx`, `CourseBuilderModal.tsx` to `src/components/modals/`.
-  - [x] *Verification:* Interactive test of modal functionalities.
+  - [x] Extract `SettingsModal.tsx`, `CourseBuilderModal.tsx` to `src/components/modals/`.
+  - [x] *Verification:* Interactive test of modal functionalities (Fixes reactive state in lab engine).
 
 ---
 

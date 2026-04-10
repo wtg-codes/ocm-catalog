@@ -14,10 +14,11 @@ interface AppState {
   completedStepIds: string[];
   enrolledCourseIds: string[];
 
-  // Domain 3: Settings
+  // Domain 3: Settings & Modals
   theme: string;
   autoAdvance: boolean;
   isSettingsOpen: boolean;
+  isCourseBuilderOpen: boolean;
 }
 
 interface AppActions {
@@ -32,10 +33,11 @@ interface AppActions {
   enrollCourse: (courseId: string) => void;
   completeStep: (stepId: string) => void;
 
-  // Settings Actions
+  // Settings & Modal Actions
   setTheme: (theme: string) => void;
   setAutoAdvance: (enabled: boolean) => void;
   setSettingsOpen: (open: boolean) => void;
+  setCourseBuilderOpen: (open: boolean) => void;
 
   // Composite/Workflow Actions
   startCourse: (courseId: string) => void;
@@ -49,85 +51,87 @@ interface AppActions {
 export const useAppStore = create<AppState & AppActions>()(
   persist(
     (set) => ({
-  // Initial State
-  activeCourseId: null,
-  activeLabId: null,
-  currentStepIndex: 0,
-  portalTab: 'catalog',
-  viewMode: 'grid',
-  completedStepIds: [],
-  enrolledCourseIds: [],
-  theme: 'dark',
-  autoAdvance: true,
-  isSettingsOpen: false,
+      // Initial State
+      activeCourseId: null,
+      activeLabId: null,
+      currentStepIndex: 0,
+      portalTab: 'catalog',
+      viewMode: 'grid',
+      completedStepIds: [],
+      enrolledCourseIds: [],
+      theme: 'dark',
+      autoAdvance: true,
+      isSettingsOpen: false,
+      isCourseBuilderOpen: false,
 
-  // Actions
-  setActiveCourseId: (id) => set({ activeCourseId: id }),
-  setActiveLabId: (id) => set({ activeLabId: id }),
-  setCurrentStepIndex: (index) => set((state) => ({
-    currentStepIndex: typeof index === 'function' ? index(state.currentStepIndex) : index
-  })),
-  setPortalTab: (tab) => set({ portalTab: tab }),
-  setViewMode: (mode) => set({ viewMode: mode }),
+      // Actions
+      setActiveCourseId: (id) => set({ activeCourseId: id }),
+      setActiveLabId: (id) => set({ activeLabId: id }),
+      setCurrentStepIndex: (index) => set((state) => ({
+        currentStepIndex: typeof index === 'function' ? index(state.currentStepIndex) : index
+      })),
+      setPortalTab: (tab) => set({ portalTab: tab }),
+      setViewMode: (mode) => set({ viewMode: mode }),
 
-  enrollCourse: (courseId) => set((state) => ({
-    enrolledCourseIds: state.enrolledCourseIds.includes(courseId)
-      ? state.enrolledCourseIds
-      : [...state.enrolledCourseIds, courseId],
-    portalTab: 'my-courses'
-  })),
+      enrollCourse: (courseId) => set((state) => ({
+        enrolledCourseIds: state.enrolledCourseIds.includes(courseId)
+          ? state.enrolledCourseIds
+          : [...state.enrolledCourseIds, courseId],
+        portalTab: 'my-courses'
+      })),
 
-  completeStep: (stepId) => set((state) => ({
-    completedStepIds: state.completedStepIds.includes(stepId)
-      ? state.completedStepIds
-      : [...state.completedStepIds, stepId]
-  })),
+      completeStep: (stepId) => set((state) => ({
+        completedStepIds: state.completedStepIds.includes(stepId)
+          ? state.completedStepIds
+          : [...state.completedStepIds, stepId]
+      })),
 
-  setTheme: (theme) => set({ theme }),
-  setAutoAdvance: (enabled) => set({ autoAdvance: enabled }),
-  setSettingsOpen: (open) => set({ isSettingsOpen: open }),
+      setTheme: (theme) => set({ theme }),
+      setAutoAdvance: (enabled) => set({ autoAdvance: enabled }),
+      setSettingsOpen: (open) => set({ isSettingsOpen: open }),
+      setCourseBuilderOpen: (open) => set({ isCourseBuilderOpen: open }),
 
-  // Workflow Implementations
-  startCourse: (courseId) => set({
-    activeCourseId: courseId,
-    activeLabId: null
-  }),
+      // Workflow Implementations
+      startCourse: (courseId) => set({
+        activeCourseId: courseId,
+        activeLabId: null
+      }),
 
-  startLab: (labId) => set({
-    activeLabId: labId,
-    currentStepIndex: 0
-  }),
+      startLab: (labId) => set({
+        activeLabId: labId,
+        currentStepIndex: 0
+      }),
 
-  returnToPortal: () => set({
-    activeCourseId: null,
-    activeLabId: null
-  }),
+      returnToPortal: () => set({
+        activeCourseId: null,
+        activeLabId: null
+      }),
 
-  returnToCourse: (lastStepId) => set((state) => {
-    const nextState: Partial<AppState & AppActions> = { activeLabId: null };
-    if (lastStepId && !state.completedStepIds.includes(lastStepId)) {
-      nextState.completedStepIds = [...state.completedStepIds, lastStepId];
-    }
-    return nextState;
-  }),
+      returnToCourse: (lastStepId) => set((state) => {
+        const updates: Partial<AppState> = { activeLabId: null };
+        if (lastStepId && !state.completedStepIds.includes(lastStepId)) {
+          updates.completedStepIds = [...state.completedStepIds, lastStepId];
+        }
+        return updates;
+      }),
 
-  nextStep: (currentStepId, isLastStep) => set((state) => {
-    const newCompleted = state.completedStepIds.includes(currentStepId)
-      ? state.completedStepIds
-      : [...state.completedStepIds, currentStepId];
+      nextStep: (currentStepId, isLastStep) => set((state) => {
+        const newCompleted = state.completedStepIds.includes(currentStepId)
+          ? state.completedStepIds
+          : [...state.completedStepIds, currentStepId];
 
-    if (!isLastStep && state.autoAdvance) {
-      return {
-        completedStepIds: newCompleted,
-        currentStepIndex: state.currentStepIndex + 1
-      };
-    }
-    return { completedStepIds: newCompleted };
-  }),
+        if (!isLastStep && state.autoAdvance) {
+          return {
+            completedStepIds: newCompleted,
+            currentStepIndex: state.currentStepIndex + 1
+          };
+        }
+        return { completedStepIds: newCompleted };
+      }),
 
-  prevStep: () => set((state) => ({
-    currentStepIndex: Math.max(0, state.currentStepIndex - 1)
-  })),
+      prevStep: () => set((state) => ({
+        currentStepIndex: Math.max(0, state.currentStepIndex - 1)
+      })),
     }),
     { name: "ocm-lms-store" }
   )

@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
-import { Edit3, X, Plus, Trash2, Save, ChevronRight } from 'lucide-react';
+import { Edit3, X, Plus, Trash2, Save } from 'lucide-react';
 import { Course, Lab } from '../../types';
 import { useAppStore } from '../../store/useAppStore';
 import { initialCoursesData, generateModuleSteps, generateLabSteps } from '../../data/mockData';
 
 export const CourseBuilderModal: React.FC = () => {
-  const { activeCourseId, setActiveCourseId } = useAppStore();
+  const { activeCourseId, isCourseBuilderOpen, setCourseBuilderOpen } = useAppStore();
 
   // Local state for the builder since it's a "drafting" interface
   const initialEditingCourse = initialCoursesData.find(c => c.id === activeCourseId) || initialCoursesData[0];
   const [editingCourse, setEditingCourse] = useState<Course>(JSON.parse(JSON.stringify(initialEditingCourse)));
-  const [isOpen, setIsOpen] = useState(false); // In a real app, this would be controlled by an 'edit' button
 
-  if (!isOpen) {
-    // Hidden by default in this refactor, but accessible for later phases
-    return null;
-  }
+  if (!isCourseBuilderOpen) return null;
 
   const addModule = () => {
     const id = `mod-${Date.now()}`;
@@ -51,9 +47,9 @@ export const CourseBuilderModal: React.FC = () => {
     setEditingCourse({ ...editingCourse, labs: newLabs });
   };
 
-  const updateLab = (idx: number, field: keyof Lab, value: string) => {
-    const newLabs = [...editingCourse.labs] as any;
-    newLabs[idx][field] = value;
+  const updateLabField = <K extends keyof Lab>(idx: number, field: K, value: Lab[K]) => {
+    const newLabs = [...editingCourse.labs];
+    newLabs[idx] = { ...newLabs[idx], [field]: value };
     setEditingCourse({ ...editingCourse, labs: newLabs });
   };
 
@@ -65,7 +61,7 @@ export const CourseBuilderModal: React.FC = () => {
           <h3 className="font-bold text-main flex items-center gap-2 text-lg">
             <Edit3 size={20} className="text-accent" /> Course Authoring Builder
           </h3>
-          <button onClick={() => setIsOpen(false)} className="text-muted hover:text-accent transition-colors bg-base p-1.5 rounded-full border border-main">
+          <button onClick={() => setCourseBuilderOpen(false)} className="text-muted hover:text-accent transition-colors bg-base p-1.5 rounded-full border border-main">
             <X size={18} />
           </button>
         </div>
@@ -120,13 +116,13 @@ export const CourseBuilderModal: React.FC = () => {
                       <input
                         type="text"
                         value={lab.title}
-                        onChange={(e) => updateLab(idx, 'title', e.target.value)}
+                        onChange={(e) => updateLabField(idx, 'title', e.target.value)}
                         className="w-full bg-panel border border-main rounded-lg p-2.5 font-bold text-main"
                         placeholder="Lab Title"
                       />
                       <textarea
                         value={lab.description}
-                        onChange={(e) => updateLab(idx, 'description', e.target.value)}
+                        onChange={(e) => updateLabField(idx, 'description', e.target.value)}
                         className="w-full bg-panel border border-main rounded-lg p-2.5 text-sm text-muted h-20"
                         placeholder="Lab Description"
                       />
@@ -135,7 +131,7 @@ export const CourseBuilderModal: React.FC = () => {
                        <label className="block text-xs font-bold text-muted uppercase tracking-widest">Icon Hook</label>
                        <select
                         value={lab.icon}
-                        onChange={(e) => updateLab(idx, 'icon', e.target.value)}
+                        onChange={(e) => updateLabField(idx, 'icon', e.target.value)}
                         className="w-full bg-panel border border-main rounded-lg p-2.5 text-sm text-main"
                        >
                          <option value="Presentation">Presentation (Module)</option>
@@ -157,8 +153,8 @@ export const CourseBuilderModal: React.FC = () => {
         <div className="p-6 border-t border-main bg-muted flex items-center justify-between">
           <p className="text-xs text-muted font-medium">Changes are only saved to the local session in this prototype.</p>
           <div className="flex gap-3">
-            <button onClick={() => setIsOpen(false)} className="px-6 py-2.5 rounded-lg font-bold text-muted hover:text-main transition-colors uppercase tracking-widest text-xs">Cancel</button>
-            <button onClick={() => setIsOpen(false)} className="accent-btn px-8 py-2.5 rounded-lg font-bold flex items-center gap-2 uppercase tracking-widest text-xs">
+            <button onClick={() => setCourseBuilderOpen(false)} className="px-6 py-2.5 rounded-lg font-bold text-muted hover:text-main transition-colors uppercase tracking-widest text-xs">Cancel</button>
+            <button onClick={() => setCourseBuilderOpen(false)} className="accent-btn px-8 py-2.5 rounded-lg font-bold flex items-center gap-2 uppercase tracking-widest text-xs">
               <Save size={16} /> Save Track
             </button>
           </div>
