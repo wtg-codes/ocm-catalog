@@ -13,7 +13,7 @@ export const ActiveLabEngine: React.FC = () => {
     currentStepIndex,
     nextStep,
     prevStep,
-    autoAdvance
+    completedStepIds
   } = useAppStore();
 
   const activeCourse = initialCoursesData.find(c => c.id === activeCourseId);
@@ -25,8 +25,9 @@ export const ActiveLabEngine: React.FC = () => {
   const currentStep = steps[currentStepIndex];
   const isLastStep = currentStepIndex === steps.length - 1;
 
+  // Reactive progress calculation
   const labProgress = (steps.length > 0)
-    ? (useAppStore.getState().completedStepIds.filter(id => steps.some(s => s.id === id)).length / steps.length) * 100
+    ? (completedStepIds.filter(id => steps.some(s => s.id === id)).length / steps.length) * 100
     : 0;
 
   return (
