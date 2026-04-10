@@ -35,7 +35,7 @@ test.describe('OCM LMS User Journeys', () => {
 
     // 4. Verify Lab Engine
     await expect(page.locator('aside')).toBeVisible(); // Sidebar
-    await expect(page.getByText(/Step 1 of/)).toBeVisible();
+    await expect(page.getByText(/Step 1 \//i)).toBeVisible();
 
     // 5. Navigate steps
     await page.getByRole('button', { name: /Mark Complete & Continue/i }).click();

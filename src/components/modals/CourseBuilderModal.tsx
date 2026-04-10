@@ -100,30 +100,36 @@ export const CourseBuilderModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-8 animate-in fade-in duration-200">
-      <div className="bg-panel border border-main shadow-2xl rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-md z-50 flex items-center justify-center p-4 sm:p-8 animate-in fade-in duration-300">
+      <div className="bg-panel border border-main shadow-elevated rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
 
-        <div className="flex items-center justify-between p-5 border-b border-main bg-muted">
-          <h3 className="font-bold text-main flex items-center gap-2 text-lg">
-            <Edit3 size={20} className="text-accent" /> Course Authoring Builder
+        <div className="flex items-center justify-between px-6 py-4 border-b border-subtle bg-muted/30">
+          <h3 className="font-black text-main flex items-center gap-3 text-sm uppercase tracking-widest">
+            <Edit3 size={18} className="text-accent" /> Course Authoring
           </h3>
-          <button onClick={() => setCourseBuilderOpen(false)} className="text-muted hover:text-accent transition-colors bg-base p-1.5 rounded-full border border-main">
+          <button
+            onClick={() => setCourseBuilderOpen(false)}
+            className="p-1.5 text-text-muted hover:text-main hover:bg-muted rounded-md transition-colors border border-subtle"
+          >
             <X size={18} />
           </button>
         </div>
 
-        <div className="p-6 overflow-y-auto flex-1 space-y-8 custom-scrollbar">
-          <div className="space-y-4">
-            <h4 className="font-bold text-main text-lg border-b border-main pb-2">Course Metadata</h4>
+        <div className="p-8 overflow-y-auto flex-1 space-y-10 custom-scrollbar bg-panel">
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+               <div className="w-1 h-6 bg-accent rounded-full" />
+               <h4 className="font-bold text-main text-base tracking-tight">Course Metadata</h4>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Course Title</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-text-muted uppercase tracking-widest">Course Title</label>
                 <input
                   type="text"
                   value={editingCourse.title}
                   onChange={(e) => setEditingCourse({...editingCourse, title: e.target.value})}
-                  className="w-full bg-base border border-main rounded-lg p-3 text-main focus:outline-none focus:border-accent"
+                  className="w-full bg-muted/20 border border-subtle rounded-md p-3 text-sm text-main focus:outline-none focus:ring-1 focus:ring-accent/50 focus:border-accent/50 transition-all"
                 />
               </div>
               <div>

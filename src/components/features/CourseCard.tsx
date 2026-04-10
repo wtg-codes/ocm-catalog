@@ -140,8 +140,12 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
         <div className="text-[10px] font-black uppercase tracking-widest px-2.5 py-1 bg-muted text-muted rounded-full border border-main inline-block mb-3">
           {course.courseNumber}
         </div>
-        <h3 className="text-2xl font-bold text-main mb-3 leading-tight tracking-tight">{course.title}</h3>
-        <p className="text-muted leading-relaxed line-clamp-3 font-medium">{course.description}</p>
+        <h3 className="text-xl font-bold text-main mb-2 leading-tight tracking-tight group-hover:text-accent transition-colors">
+          {course.title}
+        </h3>
+        <p className="text-sm text-text-muted leading-relaxed line-clamp-3 font-medium opacity-80">
+          {course.description}
+        </p>
       </div>
 
       <div className="px-8 pb-6 shrink-0">
@@ -177,6 +181,13 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
           </button>
         )}
       </div>
+
+      {/* Subtle indicator for enrolled courses */}
+      {isEnrolled && (
+        <div className="absolute top-0 right-0 p-1">
+          <div className="w-2 h-2 bg-accent rounded-full animate-pulse shadow-accent" />
+        </div>
+      )}
     </div>
   );
 };

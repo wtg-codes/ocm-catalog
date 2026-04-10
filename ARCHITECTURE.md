@@ -47,3 +47,10 @@ Tailwind is configured to use these variables, enabling utility classes to adapt
 ## Refactor Roadmap
 
 The project follows a 6-phase refactor roadmap. Detailed progress and task breakdowns are tracked in the [to-do.md](./to-do.md) file.
+
+## Design Language Refresh (v0.8.0)
+The application has been updated with a modern, high-fidelity design language inspired by Linear and Vercel.
+- **Precision Tokens**: Standardized typography, spacing, and radius scales.
+- **Surface Elevation**: Layered surface tokens (`base`, `panel`, `elevated`) for better depth.
+- **Refined Interactivity**: Subtle hover states, glassmorphism headers, and polished animation entry points.
+- **Premium Components**: Redesigned course cards and lab engine with a "data-rich" aesthetic.
