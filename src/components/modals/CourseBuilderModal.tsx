@@ -1,17 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Edit3, X, Plus, Trash2, Save } from 'lucide-react';
 import { Course, Lab } from '../../types';
 import { useAppStore } from '../../store/useAppStore';
-import { initialCoursesData, generateModuleSteps, generateLabSteps } from '../../data/mockData';
+import { generateModuleSteps, generateLabSteps } from '../../data/mockData';
+import { DynamicIcon } from '../../utils/iconRegistry';
 
 export const CourseBuilderModal: React.FC = () => {
-  const { activeCourseId, isCourseBuilderOpen, setCourseBuilderOpen } = useAppStore();
+  const {
+    activeCourseId,
+    isCourseBuilderOpen,
+    setCourseBuilderOpen,
+    courses,
+    addCourse,
+    updateCourse,
+    deleteCourse
+  } = useAppStore();
 
-  // Local state for the builder since it's a "drafting" interface
-  const initialEditingCourse = initialCoursesData.find(c => c.id === activeCourseId) || initialCoursesData[0];
-  const [editingCourse, setEditingCourse] = useState<Course>(JSON.parse(JSON.stringify(initialEditingCourse)));
+  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
 
-  if (!isCourseBuilderOpen) return null;
+  useEffect(() => {
+    if (isCourseBuilderOpen) {
+      const existing = courses.find(c => c.id === activeCourseId);
+      if (existing) {
+        setEditingCourse(JSON.parse(JSON.stringify(existing)));
+      } else {
+        setEditingCourse({
+          id: `course-${Date.now()}`,
+          category: 'New Category',
+          courseNumber: 'NEW-100',
+          status: 'draft',
+          title: 'New Course',
+          description: 'Describe the outcome and goal of this learning path.',
+          icon: 'Cloud',
+          labs: []
+        });
+      }
+    } else {
+      setEditingCourse(null);
+    }
+  }, [isCourseBuilderOpen, activeCourseId, courses]);
+
+  if (!isCourseBuilderOpen || !editingCourse) return null;
 
   const addModule = () => {
     const id = `mod-${Date.now()}`;
@@ -53,6 +82,23 @@ export const CourseBuilderModal: React.FC = () => {
     setEditingCourse({ ...editingCourse, labs: newLabs });
   };
 
+  const handleSave = () => {
+    const exists = courses.find(c => c.id === editingCourse.id);
+    if (exists) {
+      updateCourse(editingCourse);
+    } else {
+      addCourse(editingCourse);
+    }
+    setCourseBuilderOpen(false);
+  };
+
+  const handleDelete = () => {
+    if (window.confirm("Are you sure you want to delete this course?")) {
+      deleteCourse(editingCourse.id);
+      setCourseBuilderOpen(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-8 animate-in fade-in duration-200">
       <div className="bg-panel border border-main shadow-2xl rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
@@ -81,84 +127,136 @@ export const CourseBuilderModal: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Track Category</label>
+                <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Category</label>
                 <input
                   type="text"
                   value={editingCourse.category}
                   onChange={(e) => setEditingCourse({...editingCourse, category: e.target.value})}
                   className="w-full bg-base border border-main rounded-lg p-3 text-main focus:outline-none focus:border-accent"
+                  placeholder="e.g. Developer & Engineering"
                 />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Course Number</label>
+                <input
+                  type="text"
+                  value={editingCourse.courseNumber}
+                  onChange={(e) => setEditingCourse({...editingCourse, courseNumber: e.target.value})}
+                  className="w-full bg-base border border-main rounded-lg p-3 text-main focus:outline-none focus:border-accent"
+                  placeholder="e.g. DEV-400"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Status</label>
+                <select
+                  value={editingCourse.status}
+                  onChange={(e) => setEditingCourse({...editingCourse, status: e.target.value as any})}
+                  className="w-full bg-base border border-main rounded-lg p-3 text-main focus:outline-none focus:border-accent appearance-none"
+                >
+                  <option value="published">Published</option>
+                  <option value="draft">Draft</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Description</label>
+              <textarea
+                value={editingCourse.description}
+                onChange={(e) => setEditingCourse({...editingCourse, description: e.target.value})}
+                className="w-full bg-base border border-main rounded-lg p-3 text-main h-24 focus:outline-none focus:border-accent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-muted mb-2 uppercase tracking-wide">Course Icon</label>
+              <div className="flex flex-wrap gap-3">
+                {['Cloud', 'Terminal', 'Monitor', 'Lightbulb', 'Key', 'Zap', 'Presentation', 'FileCode2'].map(i => (
+                  <button
+                    key={i}
+                    onClick={() => setEditingCourse({...editingCourse, icon: i})}
+                    className={`p-3 rounded-lg border transition-all ${editingCourse.icon === i ? 'border-accent bg-accent-muted text-accent shadow-sm' : 'border-main text-muted hover:border-accent hover:text-accent bg-base'}`}
+                  >
+                    <DynamicIcon name={i} size={24} />
+                  </button>
+                ))}
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between border-b border-main pb-2">
-              <h4 className="font-bold text-main text-lg">Curriculum Modules</h4>
+              <h4 className="font-bold text-main text-lg">Curriculum</h4>
               <div className="flex gap-2">
-                <button onClick={addModule} className="text-xs font-bold uppercase tracking-widest bg-muted hover:bg-main hover:text-white px-3 py-1.5 rounded-lg border border-main transition-colors flex items-center gap-1.5">
-                  <Plus size={14} /> Add Module
+                <button onClick={addModule} className="text-xs font-bold bg-base border border-main hover:border-accent text-muted hover:text-accent px-3 py-1.5 rounded flex items-center gap-1 transition-colors">
+                  <Plus size={14}/> Add Module
                 </button>
-                <button onClick={addLab} className="text-xs font-bold uppercase tracking-widest bg-muted hover:bg-main hover:text-white px-3 py-1.5 rounded-lg border border-main transition-colors flex items-center gap-1.5">
-                  <Plus size={14} /> Add Lab
+                <button onClick={addLab} className="text-xs font-bold bg-base border border-main hover:border-accent text-muted hover:text-accent px-3 py-1.5 rounded flex items-center gap-1 transition-colors">
+                  <Plus size={14}/> Add Lab
                 </button>
               </div>
             </div>
 
-            <div className="space-y-4">
-              {editingCourse.labs.map((lab, idx) => (
-                <div key={lab.id} className="bg-base border border-main rounded-xl p-5 group relative">
-                  <button onClick={() => removeLab(idx)} className="absolute top-4 right-4 text-muted hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Trash2 size={18} />
-                  </button>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="md:col-span-2 space-y-4">
+            {editingCourse.labs.length === 0 ? (
+              <div className="text-center py-10 border-2 border-dashed border-main rounded-xl">
+                <p className="text-muted font-medium">No curriculum items yet. Add a Module or Lab to begin.</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {editingCourse.labs.map((lab, index) => (
+                  <div key={lab.id} className="bg-base border border-main rounded-xl p-4 flex gap-4">
+                    <div className="mt-1 bg-muted p-2 rounded border border-main text-muted shrink-0 h-fit">
+                      <DynamicIcon name={lab.icon} size={20} />
+                    </div>
+                    <div className="flex-1 space-y-3">
                       <input
                         type="text"
                         value={lab.title}
-                        onChange={(e) => updateLabField(idx, 'title', e.target.value)}
-                        className="w-full bg-panel border border-main rounded-lg p-2.5 font-bold text-main"
-                        placeholder="Lab Title"
+                        onChange={(e) => updateLabField(index, 'title', e.target.value)}
+                        className="w-full bg-panel border border-main rounded p-2 text-sm font-bold text-main focus:outline-none focus:border-accent"
+                        placeholder="Module / Lab Title"
                       />
                       <textarea
                         value={lab.description}
-                        onChange={(e) => updateLabField(idx, 'description', e.target.value)}
-                        className="w-full bg-panel border border-main rounded-lg p-2.5 text-sm text-muted h-20"
-                        placeholder="Lab Description"
+                        onChange={(e) => updateLabField(index, 'description', e.target.value)}
+                        className="w-full bg-panel border border-main rounded p-2 text-sm text-main h-20 focus:outline-none focus:border-accent"
+                        placeholder="Short description..."
                       />
                     </div>
-                    <div className="space-y-4">
-                       <label className="block text-xs font-bold text-muted uppercase tracking-widest">Icon Hook</label>
-                       <select
-                        value={lab.icon}
-                        onChange={(e) => updateLabField(idx, 'icon', e.target.value)}
-                        className="w-full bg-panel border border-main rounded-lg p-2.5 text-sm text-main"
-                       >
-                         <option value="Presentation">Presentation (Module)</option>
-                         <option value="Terminal">Terminal (Lab)</option>
-                         <option value="Monitor">Monitor</option>
-                         <option value="Cloud">Cloud</option>
-                       </select>
-                       <div className="pt-4">
-                         <span className="text-xs font-bold text-accent uppercase tracking-widest">{lab.stepsData.length} Steps Generated</span>
-                       </div>
-                    </div>
+                    <button onClick={() => removeLab(index)} className="text-muted hover:text-red-500 shrink-0 self-start p-2"><Trash2 size={18}/></button>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="p-6 border-t border-main bg-muted flex items-center justify-between">
-          <p className="text-xs text-muted font-medium">Changes are only saved to the local session in this prototype.</p>
+        <div className="p-5 border-t border-main bg-muted flex justify-between items-center">
+          <button
+            onClick={handleDelete}
+            className="text-red-500 hover:text-red-600 font-bold text-sm flex items-center gap-1 transition-colors"
+          >
+            <Trash2 size={16}/> Delete Course
+          </button>
           <div className="flex gap-3">
-            <button onClick={() => setCourseBuilderOpen(false)} className="px-6 py-2.5 rounded-lg font-bold text-muted hover:text-main transition-colors uppercase tracking-widest text-xs">Cancel</button>
-            <button onClick={() => setCourseBuilderOpen(false)} className="accent-btn px-8 py-2.5 rounded-lg font-bold flex items-center gap-2 uppercase tracking-widest text-xs">
-              <Save size={16} /> Save Track
+            <button
+              onClick={() => setCourseBuilderOpen(false)}
+              className="px-6 py-2.5 rounded-lg text-sm font-bold uppercase tracking-wide border border-main text-muted hover:text-main bg-base transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSave}
+              className="accent-btn px-6 py-2.5 rounded-lg text-sm font-bold uppercase tracking-wide flex items-center gap-2"
+            >
+              <Save size={16}/> Save Course
             </button>
           </div>
         </div>
+
       </div>
     </div>
   );
