@@ -1,0 +1,13 @@
+
+> ocm-catalog@0.0.0 dev
+> vite
+
+
+  VITE v5.4.21  ready in 305 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+3:19:33 AM [vite] hmr update /src/components/features/CourseCard.tsx, /src/index.css
+3:24:06 AM [vite] hmr update /src/components/layout/Header.tsx, /src/index.css
+3:33:58 AM [vite] hmr update /src/components/features/ActiveLabEngine.tsx, /src/index.css
+3:37:06 AM [vite] hmr update /src/components/features/CourseCard.tsx, /src/index.css

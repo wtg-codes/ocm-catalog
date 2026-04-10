@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { PortalTab, ViewMode } from '../types';
+import { PortalTab, ViewMode, Course } from '../types';
+import { initialCoursesData } from '../data/mockData';
 
 interface AppState {
   // Domain 1: Navigation & UI State
@@ -19,6 +20,9 @@ interface AppState {
   autoAdvance: boolean;
   isSettingsOpen: boolean;
   isCourseBuilderOpen: boolean;
+
+  // Domain 4: Data
+  courses: Course[];
 }
 
 interface AppActions {
@@ -38,6 +42,12 @@ interface AppActions {
   setAutoAdvance: (enabled: boolean) => void;
   setSettingsOpen: (open: boolean) => void;
   setCourseBuilderOpen: (open: boolean) => void;
+
+  // Data Actions
+  setCourses: (courses: Course[]) => void;
+  addCourse: (course: Course) => void;
+  updateCourse: (course: Course) => void;
+  deleteCourse: (courseId: string) => void;
 
   // Composite/Workflow Actions
   startCourse: (courseId: string) => void;
@@ -63,6 +73,7 @@ export const useAppStore = create<AppState & AppActions>()(
       autoAdvance: true,
       isSettingsOpen: false,
       isCourseBuilderOpen: false,
+      courses: initialCoursesData,
 
       // Actions
       setActiveCourseId: (id) => set({ activeCourseId: id }),
@@ -90,6 +101,16 @@ export const useAppStore = create<AppState & AppActions>()(
       setAutoAdvance: (enabled) => set({ autoAdvance: enabled }),
       setSettingsOpen: (open) => set({ isSettingsOpen: open }),
       setCourseBuilderOpen: (open) => set({ isCourseBuilderOpen: open }),
+
+      // Data Actions
+      setCourses: (courses) => set({ courses }),
+      addCourse: (course) => set((state) => ({ courses: [...state.courses, course] })),
+      updateCourse: (course) => set((state) => ({
+        courses: state.courses.map((c) => (c.id === course.id ? course : c))
+      })),
+      deleteCourse: (courseId) => set((state) => ({
+        courses: state.courses.filter((c) => c.id !== courseId)
+      })),
 
       // Workflow Implementations
       startCourse: (courseId) => set({

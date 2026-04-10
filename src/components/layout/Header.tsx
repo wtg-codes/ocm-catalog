@@ -9,7 +9,8 @@ export const Header: React.FC = () => {
     setPortalTab,
     setActiveCourseId,
     isSettingsOpen,
-    setSettingsOpen
+    setSettingsOpen,
+    enrolledCourseIds
   } = useAppStore();
 
   const handleLogoClick = () => {
@@ -52,7 +53,12 @@ export const Header: React.FC = () => {
                 : 'text-text-muted hover:text-main'
             }`}
           >
-            <GraduationCap size={16} /> My Courses
+            <GraduationCap size={18} /> My Courses
+            {enrolledCourseIds.length > 0 && (
+               <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-bold ${portalTab === 'my-courses' ? 'bg-accent text-accent-fg' : 'bg-muted text-muted'}`}>
+                {enrolledCourseIds.length}
+              </span>
+            )}
           </button>
         </nav>
       </div>
