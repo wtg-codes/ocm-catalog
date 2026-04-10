@@ -19,17 +19,17 @@
 
 ---
 
-## Phase 2: Data Modeling, Mock Data, & Strict Typing
-- [x] **Step 2.1: Define Core TypeScript Interfaces** (DONE)
+## Phase 2: Data Modeling, Mock Data, & Strict Typing (DONE)
+- [x] **Step 2.1: Define Core TypeScript Interfaces**
 - [x] **Step 2.2: Extract Mock Data & Utility Components**
-  - [x] Create `src/data/mockData.tsx` (must be .tsx as it contains JSX).
+  - [x] Create `src/data/mockData.tsx`
   - [x] Move `initialCoursesData`, `generateModuleSteps`, and `generateLabSteps` to this file.
   - [x] Create `src/utils/iconRegistry.tsx` for `iconMap` and `DynamicIcon`.
   - [x] *Verification:* Run `npm run build`; verify data integrity in `App.tsx`.
 
 ---
 
-## Phase 3: Global State Management (Zustand)
+## Phase 3: Global State Management (Zustand) (DONE)
 - [x] **Step 3.1: Initialize Zustand Store**
   - [x] Create `src/store/useAppStore.ts`.
   - [x] Define `AppState` and `AppActions` interfaces.
@@ -62,19 +62,19 @@
 
 ---
 
-## Phase 5: CI/CD & Deployment
-- [ ] **Step 5.1: GitHub Actions Workflows**
-  - [ ] Create `.github/workflows/pr-check.yml` (Lint, Type-check, Build).
-  - [ ] Create `.github/workflows/deploy-pages.yml` (Build and Deploy).
-  - [ ] *Verification:* Run workflows on push/PR.
-- [ ] **Step 5.2: Deployment Configuration**
-  - [ ] Ensure `vite.config.ts` has `base: './'`.
-  - [ ] *Verification:* Production build preview check.
+## Phase 5: CI/CD & Deployment (DONE)
+- [x] **Step 5.1: GitHub Actions Workflows**
+  - [x] Create `.github/workflows/pr-check.yml` (Lint, Type-check, Build).
+  - [x] Create `.github/workflows/deploy-pages.yml` (Build and Deploy).
+  - [x] *Verification:* Run workflows on push/PR.
+- [x] **Step 5.2: Deployment Configuration**
+  - [x] Ensure `vite.config.ts` has `base: './'`.
+  - [x] *Verification:* Production build preview check.
 
 ---
 
-## Phase 6: Final Documentation & Cleanup
-- [ ] **Step 6.1: README Update & Handoff**
-  - [ ] Add GitHub Pages deployment instructions to `README.md`.
-  - [ ] Final code cleanup and removal of unused artifacts.
-  - [ ] *Verification:* Final visual audit and build.
+## Phase 6: Final Documentation & Cleanup (DONE)
+- [x] **Step 6.1: README Update & Handoff**
+  - [x] Add GitHub Pages deployment instructions to `README.md`.
+  - [x] Final code cleanup and removal of unused artifacts.
+  - [x] *Verification:* Final visual audit and build.
