@@ -1,68 +1,96 @@
-# OCM Learning Management System (LMS)
+# 🎓 Tridorian OCM Learning Management System (LMS)
 
-A production-grade, component-driven React application for delivering Organizational Change Management (OCM) content within a professional services organization.
+[![PR Check](https://github.com/wtg-codes/ocm-catalog/actions/workflows/pr-check.yml/badge.svg)](https://github.com/wtg-codes/ocm-catalog/actions/workflows/pr-check.yml)
+[![Deploy to GitHub Pages](https://github.com/wtg-codes/ocm-catalog/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/wtg-codes/ocm-catalog/actions/workflows/deploy-pages.yml)
 
-## Project Overview
+**Live Demo:** [https://wtg-codes.github.io/ocm-catalog/](https://wtg-codes.github.io/ocm-catalog/)
 
-This repository is a modernized refactor of the original OCM catalog prototype. It has been transitioned from a monolithic architecture into a scalable, type-safe development environment.
+The Tridorian OCM LMS is a high-performance, component-driven React application specifically engineered for delivering **Organizational Change Management (OCM)** training tracks. Originally born as a rapid prototype, it has been fully refactored into a scalable, type-safe, and production-ready platform for professional services enablement.
 
-## Key Features
+---
 
-- **OCM Course Catalog:** Browse and enroll in various professional services training tracks.
-- **Interactive Lab Engine:** Step-by-step hands-on training with integrated code snippets and progress tracking.
-- **Dynamic Theme Engine:** Supports multiple themes (Light, Dark, Kitten, Caribbean, Lunar) powered by a centralized CSS variable system.
-- **Global State Management:** High-performance state synchronization using Zustand.
-- **Mobile Responsive:** Fully optimized for all screen sizes.
+## 🚀 Key Features
 
-## Getting Started
+### 🏛️ Component-Driven Architecture
+Built with **Atomic Design** principles. Every UI element is an isolated, reusable component, ensuring zero fidelity loss and maximum maintainability.
+
+### 🧪 Interactive Lab Engine
+- **Step-by-Step Guidance:** Logical flow for complex technical tasks.
+- **Rich Content:** Support for deep-dives, code snippets, and reference links.
+- **Progressive Persistence:** Automatic state saving via Zustand.
+
+### 🎨 Advanced Theme Engine
+A centralized CSS-variable system supports instant theme switching with no flash of unstyled content:
+- 🌑 **Dark (Default)** | ☀️ **Light** | 🐱 **Kitten** | 🏝️ **Caribbean** | 🌙 **Lunar**
+
+### 🛠️ Course Authoring Builder
+Integrated developer tools to draft and modify curriculum modules in real-time.
+
+### 🛡️ Enterprise-Grade Reliability
+- **Strict TypeScript:** Zero `any` types, fully modeled data structures.
+- **E2E Testing:** Robust coverage using **Playwright** for all critical user journeys.
+- **CI/CD:** Automated builds, type-checking, and deployment to GitHub Pages.
+
+---
+
+## 🏗️ System Architecture
+
+```text
+[ Client (Vite + React) ] <---> [ Zustand State Store ]
+           |                           |
+           v                           v
+[ Atomic UI Components ]      [ Persistence Middleware ]
+           |                           |
+           v                           v
+[ Tailwind CSS Utility ]      [ LocalStorage (Browser) ]
+```
+
+Detailed architectural documentation can be found in [ARCHITECTURE.md](./ARCHITECTURE.md).
+
+---
+
+## 🛠️ Development & Tooling
 
 ### Prerequisites
+- **Node.js**: v18.0+
+- **npm**: v9.0+
 
-- [Node.js](https://nodejs.org/) (v18.0 or higher)
-- [npm](https://www.npmjs.com/) (v9.0 or higher)
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd ocm-catalog
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-### Development
-
-Start the development server with Hot Module Replacement (HMR):
+### Quick Start
 ```bash
-npm run dev
+npm install      # Install dependencies
+npm run dev      # Start development server
 ```
 
-The application will be available at `http://localhost:5173`.
-
-### Production Build
-
-Generate a production-ready build:
+### Testing Suite
+We use **Playwright** for end-to-end verification and visual regression testing.
 ```bash
-npm run build
+npx playwright install --with-deps # One-time setup
+npm run test                      # Run all E2E tests
 ```
 
-Preview the local production build:
-```bash
-npm run preview
-```
+### Deployment
+Deployment is automated via GitHub Actions. Merging to `main` triggers:
+1. Linting & Type-checking
+2. Production Build (`npm run build`)
+3. Automated deploy to GitHub Pages (`./dist`)
 
-## Architecture
+---
 
-For a detailed breakdown of the project structure and technology choices, please refer to [ARCHITECTURE.md](./ARCHITECTURE.md).
+## 📈 Roadmap & Refactor Status
 
-## Refactor Status
+This project has successfully completed a 6-phase architectural refactor:
+- ✅ **Phase 1:** Environment & Foundation
+- ✅ **Phase 2:** Data Modeling & Mocking
+- ✅ **Phase 3:** Global State (Zustand)
+- ✅ **Phase 4:** Atomic Decomposition
+- ✅ **Phase 5:** CI/CD & Testing
+- ✅ **Phase 6:** Final Documentation
 
-This project is currently undergoing a multi-phase refactor. For the most up-to-date progress, please refer to the [to-do.md](./to-do.md) file.
+Track detailed progress in [to-do.md](./to-do.md).
 
-## License
+---
 
-Internal Use Only - [Company Name]
+## ⚖️ License
+
+**Internal Use Only**
+© 2024 Tridorian. All rights reserved. Proprietary and Confidential.
