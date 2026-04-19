@@ -37,7 +37,7 @@ test.describe('Visual Verification', () => {
 
   test('Course Builder Modal screenshot', async ({ page }) => {
     await page.getByRole('button', { name: /Create Custom Course/i }).click();
-    await expect(page.getByText('Course Authoring Builder')).toBeVisible();
+    await expect(page.getByText('Course Authoring')).toBeVisible();
     await page.screenshot({ path: 'test-results/course-builder.png' });
   });
 });

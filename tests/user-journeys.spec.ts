@@ -6,7 +6,7 @@ test.describe('OCM LMS User Journeys', () => {
   });
 
   test('Catalog navigation and enrollment', async ({ page }) => {
-    await expect(page.getByText('Course Catalog', { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Catalog' })).toBeVisible();
 
     // 1. Enroll from catalog card
     const enrollBtn = page.getByRole('button', { name: /Assign to Me/i }).first();
@@ -38,11 +38,11 @@ test.describe('OCM LMS User Journeys', () => {
     await expect(page.getByText(/Step 1 \//i)).toBeVisible();
 
     // 5. Navigate steps
-    await page.getByRole('button', { name: /Mark Complete & Continue/i }).click();
-    await expect(page.getByText(/Step 2 of/)).toBeVisible();
+    await page.getByRole('button', { name: /Continue/i }).click();
+    await expect(page.getByText(/Step 2 \//i)).toBeVisible();
 
     // 6. Return to course
-    await page.getByRole('button', { name: /Course/i }).click();
+    await page.getByRole('button', { name: /Exit Lab/i }).click();
     await expect(page.getByRole('button', { name: /Back to/i })).toBeVisible();
   });
 
@@ -55,13 +55,13 @@ test.describe('OCM LMS User Journeys', () => {
 
     // 2. Open settings and change theme
     await page.locator('button').filter({ has: page.locator('svg.lucide-settings') }).click();
-    await expect(page.getByText('Portal Settings')).toBeVisible();
+    await expect(page.getByText('Settings')).toBeVisible();
 
     await page.getByRole('button', { name: 'Kitten' }).click();
     await expect(page.locator('body')).toHaveClass(/theme-kitten/);
 
     // Close settings
-    await page.locator('button').filter({ has: page.locator('svg.rotate-90') }).click();
-    await expect(page.getByText('Portal Settings')).not.toBeVisible();
+    await page.locator('button').filter({ has: page.locator('svg.lucide-x') }).click();
+    await expect(page.getByText('Settings')).not.toBeVisible();
   });
 });
