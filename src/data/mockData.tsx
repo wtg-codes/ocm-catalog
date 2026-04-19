@@ -716,7 +716,25 @@ ollama run gemma4:e4b
             content: () => (
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-main tracking-tight font-medium">Welcome to Vertex AI</h2>
-                <p className="text-muted font-medium">This is a placeholder lab to demonstrate the multi-course learning portal functionality.</p>
+                <p className="text-muted font-medium">In this lab, you will deploy an open-weights model to a Vertex AI Endpoint.</p>
+              </div>
+            )
+          },
+          {
+            id: 'v1-exec',
+            title: '1. Model Deployment',
+            icon: 'Terminal',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Deploying to Endpoint</h2>
+                <p className="text-muted font-medium">Use the gcloud CLI to deploy the model.</p>
+                <div className="bg-accent-muted border border-accent p-6 rounded-xl shadow-sm mt-6">
+                  <h3 className="font-bold text-accent mb-4 flex items-center gap-2"><Layout size={20}/> Tasks:</h3>
+                  <ul className="list-none space-y-3 text-main font-medium">
+                    <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent"/> Create an endpoint.</li>
+                    <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent"/> Deploy the model.</li>
+                  </ul>
+                </div>
               </div>
             )
           },
@@ -730,7 +748,7 @@ ollama run gemma4:e4b
                   <Award size={48} className="text-accent" />
                 </div>
                 <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab Complete!</h2>
-                <p className="text-muted text-lg font-medium">You have successfully completed this module.</p>
+                <p className="text-muted text-lg font-medium">You have successfully deployed a model to Vertex AI.</p>
               </div>
             )
           }
@@ -747,9 +765,100 @@ ollama run gemma4:e4b
     description: 'Drive Google Workspace & Productivity transformation across your organization.',
     icon: 'Cloud',
     labs: [
-      { id: 'gws-101', title: 'Module 1: Welcome to Google Workspace (GWS 101)', description: 'High-level project vision, case for change, timeline, and executive tour.', icon: 'Presentation', stepsData: generateModuleSteps('gws-101', 'Welcome to Google Workspace', 'High-level project vision, case for change, timeline, and executive tour.') },
-      { id: 'gws-102', title: 'Module 2: Communication Deep Dive (GWS 102)', description: 'Detailed training on Gmail, Google Chat, and Google Meet.', icon: 'Presentation', stepsData: generateModuleSteps('gws-102', 'Communication Deep Dive', 'Detailed training on Gmail, Google Chat, and Google Meet.') },
-      { id: 'gws-301', title: 'Lab 1: Workspace Power User Lab (GWS 301)', description: 'Advanced sharing, AppSheet automation, and complex scheduling.', icon: 'Terminal', stepsData: generateLabSteps('gws-301', 'Workspace Power User Lab', 'Advanced sharing, AppSheet automation, and complex scheduling.') }
+      {
+        id: 'gws-101',
+        title: 'Module 1: Welcome to Google Workspace (GWS 101)',
+        description: 'High-level project vision, case for change, timeline, and executive tour.',
+        icon: 'Presentation',
+        stepsData: [
+          {
+            id: 'gws-101-intro',
+            title: '1. Executive Vision',
+            icon: 'Play',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">The Case for Change</h2>
+                <p className="text-muted font-medium">Watch this overview of our strategic shift to Google Workspace.</p>
+                <div className="relative w-full aspect-video bg-[#0a0f14] rounded-xl border border-main flex items-center justify-center overflow-hidden shadow-sm mt-6">
+                  <Play size={36} className="text-white opacity-50" />
+                </div>
+              </div>
+            )
+          },
+          {
+            id: 'gws-101-deck',
+            title: '2. Project Timeline',
+            icon: 'Presentation',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Implementation Timeline</h2>
+                <p className="text-muted font-medium">Review the key milestones for the Workspace migration.</p>
+              </div>
+            )
+          }
+        ]
+      },
+      {
+        id: 'gws-102',
+        title: 'Module 2: Communication Deep Dive (GWS 102)',
+        description: 'Detailed training on Gmail, Google Chat, and Google Meet.',
+        icon: 'Presentation',
+        stepsData: [
+          {
+            id: 'gws-102-intro',
+            title: '1. Modern Communication',
+            icon: 'BookOpen',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Gmail & Chat Basics</h2>
+                <p className="text-muted font-medium">Learn the core differences between asynchronous and synchronous communication in Workspace.</p>
+              </div>
+            )
+          }
+        ]
+      },
+      {
+        id: 'gws-301',
+        title: 'Lab 1: Workspace Power User Lab (GWS 301)',
+        description: 'Advanced sharing, AppSheet automation, and complex scheduling.',
+        icon: 'Terminal',
+        stepsData: [
+          {
+            id: 'gws-301-intro',
+            title: 'Lab Overview',
+            icon: 'BookOpen',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Power User Challenges</h2>
+                <p className="text-muted font-medium">Complete advanced tasks in Google Drive and Calendar.</p>
+              </div>
+            )
+          },
+          {
+            id: 'gws-301-exec',
+            title: '1. Advanced Sharing',
+            icon: 'Terminal',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Drive Data Loss Prevention</h2>
+                <p className="text-muted font-medium">Configure a Shared Drive with strict external sharing boundaries.</p>
+              </div>
+            )
+          },
+          {
+            id: 'gws-301-completion',
+            title: 'Lab Complete',
+            icon: 'Award',
+            content: () => (
+              <div className="text-center space-y-6 py-10">
+                <Award size={48} className="mx-auto text-accent" />
+                <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab Complete!</h2>
+                <p className="text-muted text-lg font-medium">You are now a Workspace Power User.</p>
+              </div>
+            )
+          }
+        ]
+      }
     ]
   },
   {
@@ -761,8 +870,66 @@ ollama run gemma4:e4b
     description: 'Master Standalone Gemini Enterprise and foundational Generative AI principles.',
     icon: 'Lightbulb',
     labs: [
-      { id: 'ge-101', title: 'Module 1: Intro to Gemini Enterprise (GE 101)', description: 'Understanding the capabilities of Gemini and core AI concepts.', icon: 'Presentation', stepsData: generateModuleSteps('ge-101', 'Intro to Gemini Enterprise', 'Understanding the capabilities of Gemini and core AI concepts.') },
-      { id: 'ge-401', title: 'Lab 1: AI Administration & Governance (GE 401)', description: 'Administering AI access, monitoring usage, and data governance.', icon: 'SettingsIcon', stepsData: generateLabSteps('ge-401', 'AI Administration & Governance', 'Administering AI access, monitoring usage, and data governance.') }
+      {
+        id: 'ge-101',
+        title: 'Module 1: Intro to Gemini Enterprise (GE 101)',
+        description: 'Understanding the capabilities of Gemini and core AI concepts.',
+        icon: 'Presentation',
+        stepsData: [
+          {
+            id: 'ge-101-intro',
+            title: '1. AI Capabilities',
+            icon: 'Lightbulb',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Introduction to Gemini</h2>
+                <p className="text-muted font-medium">Learn how Gemini Enterprise differs from consumer AI models.</p>
+              </div>
+            )
+          }
+        ]
+      },
+      {
+        id: 'ge-401',
+        title: 'Lab 1: AI Administration & Governance (GE 401)',
+        description: 'Administering AI access, monitoring usage, and data governance.',
+        icon: 'SettingsIcon',
+        stepsData: [
+          {
+            id: 'ge-401-intro',
+            title: 'Lab Overview',
+            icon: 'BookOpen',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">AI Governance</h2>
+                <p className="text-muted font-medium">Configure organizational policies for Gemini usage.</p>
+              </div>
+            )
+          },
+          {
+            id: 'ge-401-exec',
+            title: '1. Admin Console',
+            icon: 'Terminal',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Applying Policies</h2>
+                <p className="text-muted font-medium">Use the Workspace Admin Console to restrict Gemini access to a specific Organizational Unit.</p>
+              </div>
+            )
+          },
+          {
+            id: 'ge-401-completion',
+            title: 'Lab Complete',
+            icon: 'Award',
+            content: () => (
+              <div className="text-center space-y-6 py-10">
+                <Award size={48} className="mx-auto text-accent" />
+                <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab Complete!</h2>
+              </div>
+            )
+          }
+        ]
+      }
     ]
   },
   {
@@ -774,11 +941,70 @@ ollama run gemma4:e4b
     description: 'Browsing, Virtualization, and zero-trust security with Chrome Enterprise.',
     icon: 'Key',
     labs: [
-      { id: 'cep-101', title: 'Module 1: Navigating Chrome Enterprise Premium (CEP 101)', description: 'Access changes, secure enterprise browsing, and download protections.', icon: 'Presentation', stepsData: generateModuleSteps('cep-101', 'Navigating Chrome Enterprise Premium', 'Access changes, secure enterprise browsing, and download protections.') },
-      { id: 'cep-401', title: 'Lab 1: Chrome Enterprise Premium Administration (CEP 401)', description: 'Access policies, security telemetry, and fleet management.', icon: 'SettingsIcon', stepsData: generateLabSteps('cep-401', 'Chrome Enterprise Premium Administration', 'Access policies, security telemetry, and fleet management.') }
+      {
+        id: 'cep-101',
+        title: 'Module 1: Navigating Chrome Enterprise Premium (CEP 101)',
+        description: 'Access changes, secure enterprise browsing, and download protections.',
+        icon: 'Presentation',
+        stepsData: [
+          {
+            id: 'cep-101-intro',
+            title: '1. Secure Browsing',
+            icon: 'Shield',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">BeyondCorp Basics</h2>
+                <p className="text-muted font-medium">Understand how Chrome Enterprise Premium protects your data.</p>
+              </div>
+            )
+          }
+        ]
+      },
+      {
+        id: 'cep-401',
+        title: 'Lab 1: Chrome Enterprise Premium Administration (CEP 401)',
+        description: 'Access policies, security telemetry, and fleet management.',
+        icon: 'SettingsIcon',
+        stepsData: [
+          {
+            id: 'cep-401-intro',
+            title: 'Lab Overview',
+            icon: 'BookOpen',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">CEP Configuration</h2>
+                <p className="text-muted font-medium">Set up DLP policies in the Google Admin Console.</p>
+              </div>
+            )
+          },
+          {
+            id: 'cep-401-exec',
+            title: '1. DLP Rules',
+            icon: 'Terminal',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Preventing Data Exfiltration</h2>
+                <p className="text-muted font-medium">Create a rule that prevents users from downloading sensitive PII data.</p>
+              </div>
+            )
+          },
+          {
+            id: 'cep-401-completion',
+            title: 'Lab Complete',
+            icon: 'Award',
+            content: () => (
+              <div className="text-center space-y-6 py-10">
+                <Award size={48} className="mx-auto text-accent" />
+                <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab Complete!</h2>
+              </div>
+            )
+          }
+        ]
+      }
     ]
   },
   // --- DRAFT STUBS ---
+
   {
     id: 'course-rag-systems',
     category: 'Developer & Engineering',
@@ -787,8 +1013,71 @@ ollama run gemma4:e4b
     title: 'Advanced RAG Systems Implementation',
     description: 'A deep dive into Retrieval-Augmented Generation, vector databases, and grounding your models with enterprise data.',
     icon: 'FileCode2',
-    labs: []
+    labs: [
+      {
+        id: 'rag-101',
+        title: 'Module 1: Introduction to Vector Databases',
+        description: 'Learn the fundamentals of vector databases and embedding creation.',
+        icon: 'Presentation',
+        stepsData: [
+          {
+            id: 'rag-101-intro',
+            title: '1. Embeddings',
+            icon: 'Play',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Understanding Embeddings</h2>
+                <p className="text-muted font-medium">Watch this primer on text embeddings and vector spaces.</p>
+              </div>
+            )
+          }
+        ]
+      },
+      {
+        id: 'rag-201',
+        title: 'Lab 1: Implementing a basic RAG pipeline',
+        description: 'Build a RAG pipeline from scratch.',
+        icon: 'Terminal',
+        stepsData: [
+          {
+            id: 'rag-201-intro',
+            title: 'Lab Overview',
+            icon: 'BookOpen',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">RAG Basics</h2>
+                <p className="text-muted font-medium">Create a simple question-answering system grounded in your data.</p>
+              </div>
+            )
+          },
+          {
+            id: 'rag-201-exec',
+            title: '1. Building the Pipeline',
+            icon: 'Terminal',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Python & LangChain</h2>
+                <p className="text-muted font-medium">Use LangChain to tie together an LLM and a vector store.</p>
+              </div>
+            )
+          },
+          {
+            id: 'rag-201-completion',
+            title: 'Lab Complete',
+            icon: 'Award',
+            content: () => (
+              <div className="text-center space-y-6 py-10">
+                <Award size={48} className="mx-auto text-accent" />
+                <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab Complete!</h2>
+              </div>
+            )
+          }
+        ]
+      }
+    ]
   },
+
+
   {
     id: 'course-k8s-fleet',
     category: 'Cloud Infrastructure',
@@ -797,8 +1086,71 @@ ollama run gemma4:e4b
     title: 'Kubernetes Cluster Fleet Management',
     description: 'Managing multi-region GKE clusters using Anthos and modern GitOps pipelines.',
     icon: 'Monitor',
-    labs: []
+    labs: [
+      {
+        id: 'k8s-101',
+        title: 'Module 1: Intro to Fleet Management',
+        description: 'Overview of Anthos and managing multiple clusters.',
+        icon: 'Presentation',
+        stepsData: [
+          {
+            id: 'k8s-101-intro',
+            title: '1. What is a Fleet?',
+            icon: 'BookOpen',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Multi-cluster concepts</h2>
+                <p className="text-muted font-medium">Understand the benefits of grouping clusters into a fleet.</p>
+              </div>
+            )
+          }
+        ]
+      },
+      {
+        id: 'k8s-201',
+        title: 'Lab 1: Registering clusters',
+        description: 'Register GKE clusters to a fleet.',
+        icon: 'Terminal',
+        stepsData: [
+          {
+            id: 'k8s-201-intro',
+            title: 'Lab Overview',
+            icon: 'BookOpen',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Registering to Anthos</h2>
+                <p className="text-muted font-medium">Connect multiple distinct GKE clusters to your centralized fleet.</p>
+              </div>
+            )
+          },
+          {
+            id: 'k8s-201-exec',
+            title: '1. Registration',
+            icon: 'Terminal',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Using gcloud</h2>
+                <p className="text-muted font-medium">Execute the registration commands.</p>
+              </div>
+            )
+          },
+          {
+            id: 'k8s-201-completion',
+            title: 'Lab Complete',
+            icon: 'Award',
+            content: () => (
+              <div className="text-center space-y-6 py-10">
+                <Award size={48} className="mx-auto text-accent" />
+                <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab Complete!</h2>
+              </div>
+            )
+          }
+        ]
+      }
+    ]
   },
+
+
   {
     id: 'course-beyondcorp',
     category: 'Security & Zero Trust',
@@ -807,6 +1159,68 @@ ollama run gemma4:e4b
     title: 'BeyondCorp Enterprise Implementation',
     description: 'Transitioning from legacy VPNs to context-aware, zero-trust access controls across your global workforce.',
     icon: 'Key',
-    labs: []
+    labs: [
+      {
+        id: 'bce-101',
+        title: 'Module 1: Zero Trust Architecture',
+        description: 'Principles of BeyondCorp.',
+        icon: 'Presentation',
+        stepsData: [
+          {
+            id: 'bce-101-intro',
+            title: '1. The End of the VPN',
+            icon: 'Play',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Context-Aware Access</h2>
+                <p className="text-muted font-medium">Watch this presentation on how zero trust shifts security to identity and device context.</p>
+              </div>
+            )
+          }
+        ]
+      },
+      {
+        id: 'bce-201',
+        title: 'Lab 1: Configuring Context-Aware Access',
+        description: 'Create and apply access levels.',
+        icon: 'Terminal',
+        stepsData: [
+          {
+            id: 'bce-201-intro',
+            title: 'Lab Overview',
+            icon: 'BookOpen',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Access Levels</h2>
+                <p className="text-muted font-medium">Define rules for when users can access your apps.</p>
+              </div>
+            )
+          },
+          {
+            id: 'bce-201-exec',
+            title: '1. Device Posture',
+            icon: 'Shield',
+            content: () => (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-main tracking-tight">Requiring OS Updates</h2>
+                <p className="text-muted font-medium">Set up a policy that blocks access if the OS is not up to date.</p>
+              </div>
+            )
+          },
+          {
+            id: 'bce-201-completion',
+            title: 'Lab Complete',
+            icon: 'Award',
+            content: () => (
+              <div className="text-center space-y-6 py-10">
+                <Award size={48} className="mx-auto text-accent" />
+                <h2 className="text-3xl font-extrabold text-main tracking-tight">Lab Complete!</h2>
+              </div>
+            )
+          }
+        ]
+      }
+    ]
   }
+
 ];
