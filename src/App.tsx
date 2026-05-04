@@ -6,6 +6,8 @@ import { CourseDashboard } from './components/features/CourseDashboard';
 import { ActiveLabEngine } from './components/features/ActiveLabEngine';
 import { SettingsModal } from './components/modals/SettingsModal';
 import { CourseBuilderModal } from './components/modals/CourseBuilderModal';
+import { UpdatePromptModal } from './components/modals/UpdatePromptModal';
+import { checkForAppUpdate } from './utils/versionCheck';
 
 function App() {
   const {
@@ -13,6 +15,11 @@ function App() {
     activeCourseId,
     activeLabId,
   } = useAppStore();
+
+  // Check for app updates on mount
+  useEffect(() => {
+    checkForAppUpdate();
+  }, []);
 
   // Apply theme to body
   useEffect(() => {
@@ -26,6 +33,7 @@ function App() {
         <ActiveLabEngine />
         <SettingsModal />
         <CourseBuilderModal />
+        <UpdatePromptModal />
       </div>
     );
   }
@@ -44,6 +52,7 @@ function App() {
 
       <SettingsModal />
       <CourseBuilderModal />
+      <UpdatePromptModal />
     </div>
   );
 }
