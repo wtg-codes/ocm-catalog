@@ -143,7 +143,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
         <h3 className="text-xl font-bold text-main mb-2 leading-tight tracking-tight group-hover:text-accent transition-colors">
           {course.title}
         </h3>
-        <p className="text-sm text-text-muted leading-relaxed line-clamp-3 font-medium opacity-80">
+        <p className="text-sm text-muted leading-relaxed line-clamp-3 font-medium opacity-80">
           {course.description}
         </p>
       </div>

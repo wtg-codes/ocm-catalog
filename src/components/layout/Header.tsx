@@ -40,7 +40,7 @@ export const Header: React.FC = () => {
             className={`px-3 py-1.5 rounded-md text-sm font-semibold flex items-center gap-2 transition-all ${
               portalTab === 'catalog'
                 ? 'bg-panel text-accent shadow-sm border border-main ring-1 ring-black/5'
-                : 'text-text-muted hover:text-main'
+                : 'text-muted hover:text-main'
             }`}
           >
             <Library size={16} /> Catalog
@@ -50,7 +50,7 @@ export const Header: React.FC = () => {
             className={`px-3 py-1.5 rounded-md text-sm font-semibold flex items-center gap-2 transition-all ${
               portalTab === 'my-courses'
                 ? 'bg-panel text-accent shadow-sm border border-main ring-1 ring-black/5'
-                : 'text-text-muted hover:text-main'
+                : 'text-muted hover:text-main'
             }`}
           >
             <GraduationCap size={18} /> My Courses
@@ -66,7 +66,7 @@ export const Header: React.FC = () => {
       <div className="flex items-center gap-3">
         <button
           onClick={() => setSettingsOpen(!isSettingsOpen)}
-          className="p-2 text-text-muted hover:text-main hover:bg-muted rounded-md transition-all border border-transparent hover:border-main"
+          className="p-2 text-muted hover:text-main hover:bg-muted rounded-md transition-all border border-transparent hover:border-main"
         >
           <SettingsIcon size={20} />
         </button>

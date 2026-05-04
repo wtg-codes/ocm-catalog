@@ -15,7 +15,7 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ steps }) =
       <div className="bg-panel rounded-lg border border-main shadow-sm overflow-hidden sticky top-24 transition-colors duration-200">
         <div className="px-5 py-4 bg-muted/30 border-b border-main flex items-center justify-between">
           <div className="flex items-center gap-2">
-             <Layout size={16} className="text-text-muted" />
+             <Layout size={16} className="text-muted" />
              <h3 className="font-bold text-main uppercase tracking-widest text-xs">Steps</h3>
           </div>
         </div>
@@ -31,7 +31,7 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ steps }) =
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-left transition-all duration-200 ${
                   isActive
                     ? 'bg-accent/10 text-accent ring-1 ring-inset ring-accent/20'
-                    : 'hover:bg-muted text-text-muted hover:text-main'
+                    : 'hover:bg-muted text-muted hover:text-main'
                 }`}
               >
                 <div className="flex-shrink-0">
@@ -40,7 +40,7 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ steps }) =
                   ) : isActive ? (
                     <Circle size={18} className="text-accent fill-accent/20" />
                   ) : (
-                    <Circle size={18} className="text-text-muted opacity-40" />
+                    <Circle size={18} className="text-muted opacity-40" />
                   )}
                 </div>
                 <span className={`text-sm ${isActive ? 'font-semibold' : 'font-medium'} truncate tracking-tight`}>
