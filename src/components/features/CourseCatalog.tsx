@@ -58,7 +58,7 @@ export const CourseCatalog: React.FC = () => {
               {portalTab === 'catalog' ? 'Catalog' : 'My Tracks'}
             </h2>
           </div>
-          <p className="text-text-muted text-base font-medium max-w-2xl opacity-70">
+          <p className="text-muted text-base font-medium max-w-2xl opacity-70">
             {portalTab === 'catalog'
               ? 'Explore our professional services training tracks and OCM enablement modules.'
               : 'Continue your learning journey and track your progress across enrolled tracks.'}
@@ -68,13 +68,13 @@ export const CourseCatalog: React.FC = () => {
         <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-lg border border-subtle shadow-sm">
           <button
             onClick={() => setViewMode('grid')}
-            className={`p-1.5 rounded-md transition-all ${viewMode === 'grid' ? 'bg-panel text-accent shadow-sm ring-1 ring-black/5' : 'text-text-muted hover:text-main'}`}
+            className={`p-1.5 rounded-md transition-all ${viewMode === 'grid' ? 'bg-panel text-accent shadow-sm ring-1 ring-black/5' : 'text-muted hover:text-main'}`}
           >
             <Grid size={18} />
           </button>
           <button
             onClick={() => setViewMode('list')}
-            className={`p-1.5 rounded-md transition-all ${viewMode === 'list' ? 'bg-panel text-accent shadow-sm ring-1 ring-black/5' : 'text-text-muted hover:text-main'}`}
+            className={`p-1.5 rounded-md transition-all ${viewMode === 'list' ? 'bg-panel text-accent shadow-sm ring-1 ring-black/5' : 'text-muted hover:text-main'}`}
           >
             <ListIcon size={18} />
           </button>
@@ -103,7 +103,7 @@ export const CourseCatalog: React.FC = () => {
         <div className="pt-8 border-t border-main mt-12">
           <button
             onClick={handleCreateCourse}
-            className="w-full bg-panel rounded-2xl border-2 border-dashed border-main shadow-sm hover:border-accent hover:bg-accent-muted transition-all py-12 flex flex-col items-center justify-center text-muted hover:text-accent group"
+            className="w-full bg-panel rounded-2xl border-2 border-dashed border-main shadow-sm hover:border-accent hover:bg-accent-muted transition-all py-12 flex flex-col items-center justify-center group"
           >
             <div className="w-16 h-16 rounded-full bg-base border border-main flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <Plus size={32} />

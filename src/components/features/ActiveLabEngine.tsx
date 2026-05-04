@@ -39,7 +39,7 @@ export const ActiveLabEngine: React.FC = () => {
         <div className="flex items-center gap-4">
           <button
             onClick={() => returnToCourse()}
-            className="text-text-muted hover:text-main transition-colors flex items-center gap-1.5 text-[10px] font-bold bg-muted/50 hover:bg-muted border border-subtle px-3 py-1.5 rounded-md uppercase tracking-widest active:scale-95"
+            className="text-muted hover:text-main transition-colors flex items-center gap-1.5 text-[10px] font-bold bg-muted/50 hover:bg-muted border border-subtle px-3 py-1.5 rounded-md uppercase tracking-widest active:scale-95"
           >
             <ArrowLeft size={14} /> Exit Lab
           </button>
@@ -84,7 +84,7 @@ export const ActiveLabEngine: React.FC = () => {
               <button
                 onClick={prevStep}
                 disabled={currentStepIndex === 0}
-                className="px-4 py-2 text-text-muted hover:text-main disabled:opacity-20 disabled:cursor-not-allowed flex items-center gap-2 font-bold uppercase tracking-widest text-[10px] transition-colors border border-transparent hover:border-main rounded-md active:scale-95"
+                className="px-4 py-2 text-muted hover:text-main disabled:opacity-20 disabled:cursor-not-allowed flex items-center gap-2 font-bold uppercase tracking-widest text-[10px] transition-colors border border-transparent hover:border-main rounded-md active:scale-95"
               >
                 <ChevronLeft size={16} /> Previous
               </button>

@@ -109,7 +109,7 @@ export const CourseBuilderModal: React.FC = () => {
           </h3>
           <button
             onClick={() => setCourseBuilderOpen(false)}
-            className="p-1.5 text-text-muted hover:text-main hover:bg-muted rounded-md transition-colors border border-subtle"
+            className="p-1.5 text-muted hover:text-main hover:bg-muted rounded-md transition-colors border border-subtle"
           >
             <X size={18} />
           </button>
@@ -124,7 +124,7 @@ export const CourseBuilderModal: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="block text-[10px] font-black text-text-muted uppercase tracking-widest">Course Title</label>
+                <label className="block text-[10px] font-black text-muted uppercase tracking-widest">Course Title</label>
                 <input
                   type="text"
                   value={editingCourse.title}

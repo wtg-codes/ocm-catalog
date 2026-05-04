@@ -18,14 +18,14 @@ export const SettingsModal: React.FC = () => {
           <h3 className="text-sm font-black text-main uppercase tracking-widest">Settings</h3>
           <button
             onClick={() => setSettingsOpen(false)}
-            className="p-1.5 text-text-muted hover:text-main hover:bg-muted rounded-md transition-colors"
+            className="p-1.5 text-muted hover:text-main hover:bg-muted rounded-md transition-colors"
           >
             <X size={18} />
           </button>
         </div>
         <div className="p-6 space-y-6">
           <div className="space-y-4">
-            <label className="block text-[10px] font-black text-text-muted uppercase tracking-[0.2em]">Theme</label>
+            <label className="block text-[10px] font-black text-muted uppercase tracking-[0.2em]">Theme</label>
             <div className="grid grid-cols-1 gap-2">
               {['light', 'dark', 'kitten', 'caribbean', 'lunar'].map(t => (
                 <button
@@ -34,7 +34,7 @@ export const SettingsModal: React.FC = () => {
                   className={`flex items-center justify-between px-4 py-3 rounded-md border font-bold capitalize transition-all ${
                     theme === t
                       ? 'border-accent/40 bg-accent/5 text-accent ring-1 ring-accent/20'
-                      : 'border-subtle bg-muted/30 text-text-muted hover:border-main hover:bg-muted/50'
+                      : 'border-subtle bg-muted/30 text-muted hover:border-main hover:bg-muted/50'
                   }`}
                 >
                   <span className="text-sm tracking-tight">{t}</span>
@@ -47,7 +47,7 @@ export const SettingsModal: React.FC = () => {
           </div>
         </div>
         <div className="p-4 bg-muted/20 border-t border-subtle text-center">
-           <p className="text-[10px] font-bold text-text-muted/50 uppercase tracking-widest">Tridorian v0.8.0</p>
+           <p className="text-[10px] font-bold text-muted/50 uppercase tracking-widest">Tridorian v0.8.0</p>
         </div>
       </div>
     </div>
