@@ -26,9 +26,12 @@ export const ActiveLabEngine: React.FC = () => {
   const isLastStep = currentStepIndex === steps.length - 1;
 
   // Reactive progress calculation
-  const labProgress = (steps.length > 0)
-    ? (completedStepIds.filter(id => steps.some(s => s.id === id)).length / steps.length) * 100
-    : 0;
+  const labProgress = React.useMemo(() => {
+    if (steps.length === 0) return 0;
+    const stepIds = new Set(steps.map(s => s.id));
+    const completedCount = completedStepIds.filter(id => stepIds.has(id)).length;
+    return (completedCount / steps.length) * 100;
+  }, [steps, completedStepIds]);
 
   return (
     <div className="flex flex-col min-h-screen bg-base">
