@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Edit3, X, Plus, Trash2, Save } from 'lucide-react';
-import { Course, Lab } from '../../types';
+import { Course, Lab, Status } from '../../types';
 import { useAppStore } from '../../store/useAppStore';
 import { generateModuleSteps, generateLabSteps } from '../../data/mockData';
 import { DynamicIcon } from '../../utils/iconRegistry';
@@ -159,7 +159,7 @@ export const CourseBuilderModal: React.FC = () => {
                 <label className="block text-sm font-bold text-muted mb-1 uppercase tracking-wide">Status</label>
                 <select
                   value={editingCourse.status}
-                  onChange={(e) => setEditingCourse({...editingCourse, status: e.target.value as any})}
+                  onChange={(e) => setEditingCourse({...editingCourse, status: e.target.value as Status})}
                   className="w-full bg-base border border-main rounded-lg p-3 text-main focus:outline-none focus:border-accent appearance-none"
                 >
                   <option value="published">Published</option>
