@@ -103,7 +103,7 @@ export const CourseCatalog: React.FC = () => {
         <div className="pt-8 border-t border-main mt-12">
           <button
             onClick={handleCreateCourse}
-            className="w-full bg-panel rounded-2xl border-2 border-dashed border-main shadow-sm hover:border-accent hover:bg-accent-muted transition-all py-12 flex flex-col items-center justify-center text-muted hover:text-accent group"
+            className="w-full bg-panel rounded-2xl border-2 border-dashed border-main shadow-sm hover:border-accent hover:bg-accent-muted transition-all py-12 flex flex-col items-center justify-center group"
           >
             <div className="w-16 h-16 rounded-full bg-base border border-main flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <Plus size={32} />
