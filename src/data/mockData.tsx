@@ -208,25 +208,12 @@ export const initialTracksData: Track[] = [
                 <p className="text-muted font-medium">
                   Review the [Company Name] deployment architecture, quota management strategies, and security protocols.
                 </p>
-                <div className="relative w-full aspect-video bg-muted rounded-xl border border-main flex flex-col items-center justify-center overflow-hidden shadow-sm mt-6 group">
-                   <div className="absolute inset-0 bg-panel opacity-50"></div>
-                   <div className="relative z-10 flex flex-col items-center text-center p-6">
-                     <div className="w-16 h-16 bg-base rounded-2xl flex items-center justify-center border border-main mb-4 shadow-sm">
-                       <Presentation size={32} className="text-accent" />
-                     </div>
-                     <h3 className="text-main font-bold text-xl mb-2">Agentic Workflows 101</h3>
-                     <p className="text-muted text-sm max-w-sm mb-6 font-medium">Interactive slide deck placeholder. The actual Google Slides embed will render here.</p>
-                     <button className="accent-btn px-5 py-2.5 rounded-lg text-sm font-bold uppercase tracking-wide">
-                       Next Slide <ChevronRight size={16} className="inline ml-1" />
-                     </button>
-                   </div>
-                   <div className="absolute bottom-0 left-0 right-0 bg-base/80 backdrop-blur border-t border-main p-3 flex items-center justify-between">
-                     <span className="text-xs font-bold text-muted uppercase tracking-wider">Slide 1 of 24</span>
-                     <div className="flex items-center gap-2">
-                        <button className="p-1.5 rounded bg-muted text-muted hover:text-main transition-colors border border-transparent hover:border-main"><ChevronLeft size={16} /></button>
-                        <button className="p-1.5 rounded bg-muted text-muted hover:text-main transition-colors border border-transparent hover:border-main"><ChevronRight size={16} /></button>
-                     </div>
-                   </div>
+                <div className="relative w-full aspect-video bg-muted rounded-xl border border-main overflow-hidden shadow-sm mt-6">
+                  <iframe
+                    src="/ocm-catalog/Secure%20Agentic%20Development.pdf"
+                    className="w-full h-full border-none"
+                    title="Architectural Slide Deck"
+                  />
                 </div>
               </div>
             )
