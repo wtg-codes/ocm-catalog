@@ -84,3 +84,8 @@
 - [x] Refactor types, state store, and mock data.
 - [x] Refactor components to reflect new hierarchy (TrackDashboard, ActiveModuleEngine).
 - [x] Add ability to view enrolled items, unenroll, and view Profile badges.
+
+## Phase 8: Functional Demo & Test Repair (UP NEXT)
+- [ ] Fix the "Agentic Developer Track" mock data so it functions as a seamless end-to-end demo (clicking through a full course of modules).
+- [ ] Repair the `CourseBuilderModal` so that it correctly functions to build Tracks, Courses, and Modules.
+- [ ] Repair E2E Playwright tests (`user-journeys.spec.ts` and `visual-verify.spec.ts`) to match the new UI flows.
