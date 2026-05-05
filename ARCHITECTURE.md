@@ -2,6 +2,12 @@
 
 This document outlines the architectural structure and technology stack for the OCM Learning Management System (LMS), following its refactor from a monolithic prototype.
 
+## Data Hierarchy
+The core learning content follows this hierarchy:
+- **Track:** A collection of Courses.
+- **Course:** A collection of Modules.
+- **Module:** Can be hands-on Labs or Learn modules. Consists of a series of Steps.
+
 ## Technology Stack
 
 - **Build Tool:** [Vite](https://vitejs.dev/) + [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc)

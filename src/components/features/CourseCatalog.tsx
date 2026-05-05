@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, List as ListIcon, GraduationCap, Plus } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
-import { CourseCard } from './CourseCard';
-import { Course } from '../../types';
+import { TrackCard } from './TrackCard';
+import { Track } from '../../types';
 
 export const CourseCatalog: React.FC = () => {
   const {
@@ -10,34 +10,34 @@ export const CourseCatalog: React.FC = () => {
     setPortalTab,
     viewMode,
     setViewMode,
-    enrolledCourseIds,
-    courses,
+    enrolledTrackIds,
+    tracks,
     setCourseBuilderOpen,
-    setActiveCourseId
+    setActiveTrackId
   } = useAppStore();
 
-  const filteredCourses = courses.filter(
-    (c) => portalTab === 'catalog' || enrolledCourseIds.includes(c.id)
+  const filteredTracks = tracks.filter(
+    (t: any) => portalTab === 'catalog' || enrolledTrackIds.includes(t.id)
   );
 
-  const groupedCourses = filteredCourses.reduce((acc: Record<string, Course[]>, course) => {
-    const cat = course.category || 'Uncategorized';
+  const groupedTracks = filteredTracks.reduce((acc: Record<string, Track[]>, track: any) => {
+    const cat = track.category || 'Uncategorized';
     if (!acc[cat]) acc[cat] = [];
-    acc[cat].push(course);
+    acc[cat].push(track);
     return acc;
   }, {});
 
-  const handleCreateCourse = () => {
-    setActiveCourseId(null); // Signal it's a new course
+  const handleCreateTrack = () => {
+    setActiveTrackId(null); // Signal it's a new track
     setCourseBuilderOpen(true);
   };
 
-  if (portalTab === 'my-courses' && enrolledCourseIds.length === 0) {
+  if (portalTab === 'my-courses' && enrolledTrackIds.length === 0) {
     return (
       <div className="text-center py-24 bg-panel rounded-2xl border border-main shadow-sm border-dashed animate-in fade-in duration-500">
         <GraduationCap size={56} className="mx-auto text-muted opacity-50 mb-5" />
-        <h3 className="text-2xl font-bold text-main mb-2">No courses assigned yet</h3>
-        <p className="text-muted mb-8 text-lg">You haven't enrolled in any training modules.</p>
+        <h3 className="text-2xl font-bold text-main mb-2">No tracks assigned yet</h3>
+        <p className="text-muted mb-8 text-lg">You haven't enrolled in any learning tracks.</p>
         <button
           onClick={() => setPortalTab('catalog')}
           className="accent-btn px-8 py-3 rounded-lg font-bold inline-flex items-center gap-2 transition-all"
@@ -82,7 +82,7 @@ export const CourseCatalog: React.FC = () => {
       </div>
 
       <div className="space-y-16">
-        {Object.entries(groupedCourses).map(([category, categoryCourses]) => (
+        {Object.entries(groupedTracks).map(([category, categoryTracks]) => (
           <div key={category} className="space-y-6">
             <h3 className="text-2xl font-bold text-main border-b-2 border-main inline-block pb-2 pr-8 tracking-tight">
               {category}
@@ -91,8 +91,8 @@ export const CourseCatalog: React.FC = () => {
               ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
               : "space-y-6"
             }>
-              {categoryCourses.map((course) => (
-                <CourseCard key={course.id} course={course} />
+              {categoryTracks.map((track: any) => (
+                <TrackCard key={track.id} track={track} />
               ))}
             </div>
           </div>
@@ -102,13 +102,13 @@ export const CourseCatalog: React.FC = () => {
       {portalTab === 'catalog' && (
         <div className="pt-8 border-t border-main mt-12">
           <button
-            onClick={handleCreateCourse}
+            onClick={handleCreateTrack}
             className="w-full bg-panel rounded-2xl border-2 border-dashed border-main shadow-sm hover:border-accent hover:bg-accent-muted transition-all py-12 flex flex-col items-center justify-center group"
           >
             <div className="w-16 h-16 rounded-full bg-base border border-main flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
               <Plus size={32} />
             </div>
-            <h3 className="text-xl font-bold tracking-tight">Create Custom Course</h3>
+            <h3 className="text-xl font-bold tracking-tight">Create Custom Track</h3>
             <p className="text-sm mt-2 max-w-md text-center">Add a new learning path to the catalog. You can assign it to a new or existing category.</p>
           </button>
         </div>

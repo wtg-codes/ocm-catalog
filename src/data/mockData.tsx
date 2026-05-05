@@ -4,7 +4,7 @@ import {
   CheckCircle2, ChevronRight, ChevronLeft, ArrowLeft, Zap, Key, Lightbulb,
   Monitor, MessageSquare, FileCode2, GitPullRequest
 } from 'lucide-react';
-import { Course, Lab, Step } from '../types';
+import { Track, Course, Module, Step } from '../types';
 import { CodeBlock } from '../components/common/CodeBlock';
 import { DeepDive } from '../components/common/DeepDive';
 import { RefLink } from '../components/common/RefLink';
@@ -83,15 +83,15 @@ export const generateModuleSteps = (moduleId: string, moduleTitle: string, modul
   }
 ];
 
-export const generateLabSteps = (labId: string, labTitle: string, labDesc: string): Step[] => [
+export const generateLabSteps = (moduleId: string, moduleTitle: string, moduleDesc: string): Step[] => [
   {
-    id: `${labId}-intro`,
+    id: `${moduleId}-intro`,
     title: 'Lab Overview',
     icon: 'BookOpen',
     content: () => (
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-main tracking-tight">{labTitle}</h2>
-        <p className="text-muted text-lg font-medium">{labDesc}</p>
+        <h2 className="text-2xl font-bold text-main tracking-tight">{moduleTitle}</h2>
+        <p className="text-muted text-lg font-medium">{moduleDesc}</p>
         <div className="bg-accent-muted border border-accent p-6 rounded-xl shadow-sm mt-6">
           <h3 className="font-bold text-accent mb-4 flex items-center gap-2"><Layout size={20}/> Lab Objectives:</h3>
           <ul className="list-none space-y-3 text-main font-medium">
@@ -104,7 +104,7 @@ export const generateLabSteps = (labId: string, labTitle: string, labDesc: strin
     )
   },
   {
-    id: `${labId}-exec`,
+    id: `${moduleId}-exec`,
     title: '1. Hands-on Execution',
     icon: 'Terminal',
     content: () => (
@@ -133,7 +133,7 @@ export const generateLabSteps = (labId: string, labTitle: string, labDesc: strin
     )
   },
   {
-    id: `${labId}-completion`,
+    id: `${moduleId}-completion`,
     title: 'Lab Complete',
     icon: 'Award',
     content: () => (
@@ -148,16 +148,22 @@ export const generateLabSteps = (labId: string, labTitle: string, labDesc: strin
   }
 ];
 
-export const initialCoursesData: Course[] = [
+export const initialTracksData: Track[] = [
+  {
+    id: 'track-agentic-dev',
+    category: 'Developer & Engineering',
+    trackNumber: 'TRK-400',
+    status: 'published',
+    title: 'Agentic Developer Track',
+    description: 'Master Antigravity IDE, Gemini CLI, and Jules in this comprehensive learning track.',
+    icon: 'Terminal',
+    courses: [
   {
     id: 'course-agentic',
-    category: 'Developer & Engineering',
-    courseNumber: 'DEV-400',
-    status: 'published',
     title: 'Agentic Developer Toolkit Workshop',
     description: 'Master Antigravity IDE, Gemini CLI, and Jules in this comprehensive hands-on workshop designed for modern development teams.',
     icon: 'Terminal',
-    labs: [
+    modules: [
       {
         id: 'lab-0',
         title: 'Module 1: Concepts & Architecture',
@@ -694,15 +700,23 @@ ollama run gemma4:e4b
       }
     ]
   },
+    ]
+  },
+  {
+    id: 'track-gcp-cloud',
+    category: 'Cloud Infrastructure',
+    trackNumber: 'TRK-101',
+    status: 'published',
+    title: 'Google Cloud Vertex AI Track',
+    description: 'Learn how to deploy, tune, and scale open-weights foundation models on Google Cloud Vertex AI infrastructure.',
+    icon: 'Cloud',
+    courses: [
   {
     id: 'course-gcp',
-    category: 'Cloud Infrastructure',
-    courseNumber: 'GCP-101',
-    status: 'published',
     title: 'Google Cloud Vertex AI Fundamentals',
     description: 'Learn how to deploy, tune, and scale open-weights foundation models on Google Cloud Vertex AI infrastructure.',
     icon: 'Cloud',
-    labs: [
+    modules: [
       {
         id: 'v1-lab-1',
         title: 'Lab 1: Model Garden & Endpoints',
@@ -756,15 +770,23 @@ ollama run gemma4:e4b
       }
     ]
   },
+    ]
+  },
+  {
+    id: 'track-connected-worker',
+    category: 'Productivity & Collaboration',
+    trackNumber: 'TRK-200',
+    status: 'published',
+    title: 'The Connected Worker Track',
+    description: 'Drive Google Workspace & Productivity transformation across your organization.',
+    icon: 'Cloud',
+    courses: [
   {
     id: 'course-connected-worker',
-    category: 'Productivity & Collaboration',
-    courseNumber: 'GWS-200',
-    status: 'published',
     title: 'The Connected Worker',
     description: 'Drive Google Workspace & Productivity transformation across your organization.',
     icon: 'Cloud',
-    labs: [
+    modules: [
       {
         id: 'gws-101',
         title: 'Module 1: Welcome to Google Workspace (GWS 101)',
@@ -861,15 +883,23 @@ ollama run gemma4:e4b
       }
     ]
   },
+    ]
+  },
+  {
+    id: 'track-gen-ai',
+    category: 'Generative AI Foundations',
+    trackNumber: 'TRK-101',
+    status: 'published',
+    title: 'The Intelligence Advantage Track',
+    description: 'Master Standalone Gemini Enterprise and foundational Generative AI principles.',
+    icon: 'Lightbulb',
+    courses: [
   {
     id: 'course-intel-advantage',
-    category: 'Generative AI Foundations',
-    courseNumber: 'AI-101',
-    status: 'published',
     title: 'The Intelligence Advantage',
     description: 'Master Standalone Gemini Enterprise and foundational Generative AI principles.',
     icon: 'Lightbulb',
-    labs: [
+    modules: [
       {
         id: 'ge-101',
         title: 'Module 1: Intro to Gemini Enterprise (GE 101)',
@@ -932,15 +962,23 @@ ollama run gemma4:e4b
       }
     ]
   },
+    ]
+  },
+  {
+    id: 'track-secure-edge',
+    category: 'Security & Zero Trust',
+    trackNumber: 'TRK-300',
+    status: 'published',
+    title: 'The Secure Edge Track',
+    description: 'Browsing, Virtualization, and zero-trust security with Chrome Enterprise.',
+    icon: 'Key',
+    courses: [
   {
     id: 'course-secure-edge',
-    category: 'Security & Zero Trust',
-    courseNumber: 'SEC-300',
-    status: 'published',
     title: 'The Secure Edge',
     description: 'Browsing, Virtualization, and zero-trust security with Chrome Enterprise.',
     icon: 'Key',
-    labs: [
+    modules: [
       {
         id: 'cep-101',
         title: 'Module 1: Navigating Chrome Enterprise Premium (CEP 101)',
@@ -1005,15 +1043,23 @@ ollama run gemma4:e4b
   },
   // --- DRAFT STUBS ---
 
+    ]
+  },
+  {
+    id: 'track-drafts',
+    category: 'Drafts',
+    trackNumber: 'TRK-999',
+    status: 'draft',
+    title: 'Upcoming Tracks',
+    description: 'Draft courses for preview.',
+    icon: 'FileCode2',
+    courses: [
   {
     id: 'course-rag-systems',
-    category: 'Developer & Engineering',
-    courseNumber: 'DEV-500',
-    status: 'draft',
     title: 'Advanced RAG Systems Implementation',
     description: 'A deep dive into Retrieval-Augmented Generation, vector databases, and grounding your models with enterprise data.',
     icon: 'FileCode2',
-    labs: [
+    modules: [
       {
         id: 'rag-101',
         title: 'Module 1: Introduction to Vector Databases',
@@ -1080,13 +1126,10 @@ ollama run gemma4:e4b
 
   {
     id: 'course-k8s-fleet',
-    category: 'Cloud Infrastructure',
-    courseNumber: 'GCP-202',
-    status: 'draft',
     title: 'Kubernetes Cluster Fleet Management',
     description: 'Managing multi-region GKE clusters using Anthos and modern GitOps pipelines.',
     icon: 'Monitor',
-    labs: [
+    modules: [
       {
         id: 'k8s-101',
         title: 'Module 1: Intro to Fleet Management',
@@ -1153,13 +1196,10 @@ ollama run gemma4:e4b
 
   {
     id: 'course-beyondcorp',
-    category: 'Security & Zero Trust',
-    courseNumber: 'SEC-400',
-    status: 'draft',
     title: 'BeyondCorp Enterprise Implementation',
     description: 'Transitioning from legacy VPNs to context-aware, zero-trust access controls across your global workforce.',
     icon: 'Key',
-    labs: [
+    modules: [
       {
         id: 'bce-101',
         title: 'Module 1: Zero Trust Architecture',
@@ -1222,5 +1262,6 @@ ollama run gemma4:e4b
       }
     ]
   }
-
+    ]
+  }
 ];

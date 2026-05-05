@@ -11,8 +11,11 @@ export interface Step {
   content: React.FC<Record<string, unknown>>;
 }
 
-export interface Lab {
+export type ModuleType = 'lab' | 'learn' | 'video';
+
+export interface Module {
   id: string;
+  type?: ModuleType;
   title: string;
   description: string;
   icon: string;
@@ -21,11 +24,19 @@ export interface Lab {
 
 export interface Course {
   id: string;
+  title: string;
+  description: string;
+  icon: string;
+  modules: Module[];
+}
+
+export interface Track {
+  id: string;
   category: string;
-  courseNumber: string;
+  trackNumber: string;
   status: Status;
   title: string;
   description: string;
   icon: string;
-  labs: Lab[];
+  courses: Course[];
 }
