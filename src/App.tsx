@@ -49,7 +49,7 @@ function App() {
       <main className="max-w-7xl mx-auto p-6 md:p-10">
         {!activeTrackId ? (
           <CourseCatalog />
-        ) : !activeTrackId ? (
+        ) : !activeCourseId ? (
           <TrackDashboard />
         ) : (
           <CourseDashboard />
