@@ -4,32 +4,34 @@ import { useAppStore } from '../../store/useAppStore';
 import { SidebarNavigation } from '../layout/SidebarNavigation';
 import { DynamicIcon } from '../../utils/iconRegistry';
 
-export const ActiveLabEngine: React.FC = () => {
+export const ActiveModuleEngine: React.FC = () => {
   const {
+    activeTrackId,
     activeCourseId,
-    activeLabId,
+    activeModuleId,
     returnToCourse,
     currentStepIndex,
     nextStep,
     prevStep,
     completedStepIds,
-    courses
+    tracks
   } = useAppStore();
 
-  const activeCourse = courses.find(c => c.id === activeCourseId);
-  const activeLab = activeCourse?.labs.find(l => l.id === activeLabId);
+  const activeTrack = tracks.find((t: any) => t.id === activeTrackId);
+  const activeCourse = activeTrack?.courses.find((c: any) => c.id === activeCourseId);
+  const activeModule = activeCourse?.modules.find((m: any) => m.id === activeModuleId);
 
-  if (!activeLab) return null;
+  if (!activeModule) return null;
 
-  const steps = activeLab.stepsData;
+  const steps = activeModule.stepsData;
   const currentStep = steps[currentStepIndex];
   const isLastStep = currentStepIndex === steps.length - 1;
 
   // Reactive progress calculation
-  const labProgress = React.useMemo(() => {
+  const moduleProgress = React.useMemo(() => {
     if (steps.length === 0) return 0;
-    const stepIds = new Set(steps.map(s => s.id));
-    const completedCount = completedStepIds.filter(id => stepIds.has(id)).length;
+    const stepIds = new Set(steps.map((s: any) => s.id));
+    const completedCount = completedStepIds.filter((id: string) => stepIds.has(id)).length;
     return (completedCount / steps.length) * 100;
   }, [steps, completedStepIds]);
 
@@ -41,22 +43,22 @@ export const ActiveLabEngine: React.FC = () => {
             onClick={() => returnToCourse()}
             className="text-muted hover:text-main transition-colors flex items-center gap-1.5 text-[10px] font-bold bg-muted/50 hover:bg-muted border border-subtle px-3 py-1.5 rounded-md uppercase tracking-widest active:scale-95"
           >
-            <ArrowLeft size={14} /> Exit Lab
+            <ArrowLeft size={14} /> Exit Module
           </button>
           <div className="h-4 w-px bg-border-main hidden sm:block"></div>
           <div className="hidden sm:block">
-            <h1 className="text-sm font-bold text-main tracking-tight">{activeLab.title}</h1>
+            <h1 className="text-sm font-bold text-main tracking-tight">{activeModule.title}</h1>
           </div>
         </div>
         <div className="flex items-center gap-4 w-64">
           <div className="flex-1 bg-muted h-1.5 rounded-full overflow-hidden shadow-inner">
             <div
               className="bg-accent h-full transition-all duration-700 ease-out shadow-accent"
-              style={{ width: `${labProgress}%` }}
+              style={{ width: `${moduleProgress}%` }}
             />
           </div>
           <span className="text-xs font-black text-accent tracking-tighter w-8 text-right">
-            {Math.round(labProgress)}%
+            {Math.round(moduleProgress)}%
           </span>
         </div>
       </header>
@@ -101,7 +103,7 @@ export const ActiveLabEngine: React.FC = () => {
                   onClick={() => returnToCourse(currentStep.id)}
                   className="accent-btn px-6 py-2.5 rounded-md font-bold flex items-center gap-2 uppercase tracking-widest text-[10px] active:scale-95 shadow-sm"
                 >
-                  Complete Lab <Check size={16} />
+                  Complete Module <Check size={16} />
                 </button>
               )}
             </div>
